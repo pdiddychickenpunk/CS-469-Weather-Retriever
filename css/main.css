@@ -6,8 +6,8 @@
 .appCanvas {
 
     display: grid;
-    grid-template-rows: repeat(9,1fr);
-    grid-template-columns: repeat(9,1fr);
+    grid-template-rows: repeat(9, 1fr);
+    grid-template-columns: repeat(9, 1fr);
     height: 100vh;
     width: 100%;
 }
@@ -24,23 +24,24 @@
     justify-content: space-evenly;
 }
 
+.userInputSection {
 
-<div class="appCanvas">
+    display: flex;
+    grid-column-start: 2;
+    grid-column-end: 9;
+    grid-row-start: 3;
+    grid-row-end: 7;
+    border: 12px solid yellow;
+    align-items: center;
+    justify-content: space-evenly;
+}
 
-    <div class="greetingSection">
+.userInputMessageSection {
 
-        <div class="greetingMessageSection"></div>
-        <div class="userDocumentationSection"></div>
+    border: 5px solid grey;
+}
 
-    </div>
+.userInputFormSection {
 
-    <div class="userInputSection">
-
-        <div class="userInputMessageSection"></div>
-        <div class="userInputFormSection"></div>
-
-    </div>
-
-    <div class="favoriteSection"></div>
-
-</div>
+    border: 5px solid grey;
+}
