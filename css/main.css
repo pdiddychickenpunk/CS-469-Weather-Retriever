@@ -20,6 +20,8 @@
     grid-row-start: 1;
     grid-row-end: 3;
     border: 12px solid green;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
 
