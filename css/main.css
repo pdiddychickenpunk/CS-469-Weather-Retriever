@@ -1,6 +1,17 @@
 * {
 
-    background-color: beige;
+    background-color: rgb(27, 25, 25);
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+    color: #2272ff;
 }
 
 .appCanvas {
@@ -19,7 +30,7 @@
     grid-column-end: 9;
     grid-row-start: 1;
     grid-row-end: 3;
-    border: 12px solid green;
+    border: 12px solid grey;
     align-items: center;
     justify-content: space-evenly;
 }
@@ -31,7 +42,7 @@
     grid-column-end: 9;
     grid-row-start: 3;
     grid-row-end: 7;
-    border: 12px solid yellow;
+    border: 12px solid grey;
     align-items: center;
     justify-content: space-evenly;
 }
@@ -53,7 +64,7 @@
     grid-row-end: 8;
     grid-column-start: 2;
     grid-column-end: 9;
-    border: 12px solid aquamarine;
+    border: 12px solid grey;
     align-items: center;
     justify-content: center;
 }
@@ -65,7 +76,7 @@
     grid-row-end: -1;
     grid-column-start: 2;
     grid-column-end: 9;
-    border: 12px solid rosybrown;
+    border: 12px solid grey;
     align-items: center;
     justify-content: space-evenly;
 }
