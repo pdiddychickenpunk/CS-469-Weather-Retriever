@@ -80,3 +80,8 @@ h6 {
     align-items: center;
     justify-content: space-evenly;
 }
+
+.inputLabel {
+
+    color: #2272ff;
+}
