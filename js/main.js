@@ -6,9 +6,14 @@
 
 */
 
-async function getWeatherData() {
+async function getWeatherData(url) {
 
-    const response = await fetch("https://api.weatherapi.com/v1/current.json?key=38c484859aa14682b96214935242001&q=85205&aqi=no");
+    const response = await fetch(url);
+    const information = await response.json();
 
+    console.log(information);
 
 }
+
+const url = "";
+getWeatherData(url);
