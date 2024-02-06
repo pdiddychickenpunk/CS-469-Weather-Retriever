@@ -4,14 +4,27 @@
     “Your Career in Web Development Starts Here.” Your Career in Web Development Starts Here | The Odin Project, The Odin Project, www.theodinproject.com/. Accessed 24 Jan. 2024.
     “1.4: JSON - Working with Data and Apis in JavaScript.” YouTube, The Coding Train, 25 May 2019, www.youtube.com/watch?v=uxf0--uiX0I. 
 
+    https://developer.mozilla.org/en-US/docs/Web/API/Response/status
+
+
 */
 
 async function getWeatherData(url) {
 
     const response = await fetch(url);
-    const information = await response.json();
+    const status_code = response.status;
 
-    console.log(information);
+    if (status_code == '200') {
+
+        console.log(`${status_code}: OK`);
+        const information = await response.json();
+        console.log(information);
+    }
+
+    else {
+
+        console.log(`${status_code}: ERROR`);
+    }
 
 }
 
