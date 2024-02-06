@@ -18,7 +18,11 @@ async function getWeatherData(url) {
 
         console.log(`${status_code}: OK`);
         const information = await response.json();
-        console.log(information);
+        let city = information['location']['name'];
+        let state = information['location']['region'];
+        let country = information['location']['country'];
+        let time = information['location']['localtime'];
+        console.log(`City: ${city}. State: ${state}. Country: ${country}. Time: ${time}.`);
     }
 
     else {
