@@ -21,10 +21,9 @@ const port = 9000;
 
 app.get('/', (request, response) => {
 
-    response.send('there!');
+    response.send('Howdy there!');
 
 });
-
 
 app.listen(port, () => {
 
