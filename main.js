@@ -21,14 +21,9 @@
 const express = require('express');
 const app = express();
 const port = 9000;
-const path = require('path')
+const path = require('path');
 
-app.get('/', (request, response) => {
-
-    response.sendFile('html/index.html', {root: path.join(__dirname, '/public')});
-
-});
-
+app.use(express.static('public'));
 
 app.listen(port, () => {
 
