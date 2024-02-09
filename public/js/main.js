@@ -9,6 +9,7 @@
     https://expressjs.com/en/starter/hello-world.html
     https://www.youtube.com/watch?v=OgXqtxF0BO8
     https://www.youtube.com/watch?v=7UErZ43jzrU
+    https://www.youtube.com/watch?v=1YscOTfgAI4
     
     To start nodemon and app:
     nodemon js/main.js
