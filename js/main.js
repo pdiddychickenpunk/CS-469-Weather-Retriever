@@ -6,9 +6,27 @@
 
     https://developer.mozilla.org/en-US/docs/Web/API/Response/status
     https://expressjs.com/en/starter/installing.html
+    https://expressjs.com/en/starter/hello-world.html
 
 */
 
+const express = require('express');
+const app = express();
+const port = 9000;
+
+app.get('/', (request, response) => {
+
+    response.send('Howdy there!');
+
+});
+
+app.listen(port, () => {
+
+    console.log(`Listening on port: ${port}.`);
+});
+
+
+/*
 async function getWeatherData(url) {
 
     const response = await fetch(url);
@@ -34,3 +52,5 @@ async function getWeatherData(url) {
 
 const url = "";
 getWeatherData(url);
+
+*/
