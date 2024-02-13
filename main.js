@@ -1,3 +1,45 @@
+const express = require('express');
+const app = express();
+const port = 9000;
+const path = require('path');
+
+app.use(express.static('public'));
+
+app.get('/', (req, res) => {
+
+    res.sendFile(path.join(__dirname, '\\public\\', '\\html\\', 'index.html'));
+
+});
+
+app.get('/weatherInformation', (req, res) => {
+
+    const weatherData = { city: 'Vancouver', state: 'Washington', zip_code: '98662' };
+    res.json(weatherData);
+
+});
+
+app.listen(port, () => {
+
+    console.log(`Listening on port: ${port}.`);
+
+});
+
+
+/*
+async function getWeatherData() {
+
+    const response = await fetch('/weatherInformation');
+    const information = await response.json();
+    let city = information['city'];
+    let state = information['state'];
+    let zip_code = information['zip_code'];
+    console.log(`City: ${city}. State: ${state}. Zip Code: ${zip_code}.`);
+}
+
+getWeatherData();
+
+*/
+
 /*
     Attributions:
 
@@ -12,50 +54,10 @@
     https://www.youtube.com/watch?v=1YscOTfgAI4
     https://www.youtube.com/watch?v=mW2NyglYpm8
     https://www.youtube.com/watch?v=fyc-4YmgLu0
+    https://www.youtube.com/watch?v=C_vv1D5oDZ0
+    https://www.youtube.com/watch?v=PbfjNTsHfaU
     
     To start nodemon and app:
     nodemon js/main.js
-
-*/
-
-const express = require('express');
-const app = express();
-const port = 9000;
-const path = require('path');
-
-app.use(express.static('public'));
-
-app.listen(port, () => {
-
-    console.log(`Listening on port: ${port}.`);
-});
-
-
-/*
-async function getWeatherData(url) {
-
-    const response = await fetch(url);
-    const status_code = response.status;
-
-    if (status_code == '200') {
-
-        console.log(`${status_code}: OK`);
-        const information = await response.json();
-        let city = information['location']['name'];
-        let state = information['location']['region'];
-        let country = information['location']['country'];
-        let time = information['location']['localtime'];
-        console.log(`City: ${city}. State: ${state}. Country: ${country}. Time: ${time}.`);
-    }
-
-    else {
-
-        console.log(`${status_code}: ERROR`);
-    }
-
-}
-
-const url = "";
-getWeatherData(url);
 
 */
