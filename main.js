@@ -65,7 +65,7 @@ app.post('/weatherInformation', (req, res) => {
     }
 
     // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
-    let result = getWeatherData(weatherUrl).then((result) => {res.send(result)})
+    let result = getWeatherData(weatherUrl).then((result) => {res.send(result)});
 
 });
 
