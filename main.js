@@ -9,7 +9,9 @@ app.use(express.static('public'));
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
+let pubDirectory = path.join(__dirname, 'public');
 
+console.log(pubDirectory);
 async function getWeatherData(url) {
 
     /*
@@ -49,23 +51,23 @@ app.post('/weatherInformation', (req, res) => {
     // user provides all input fields.
     if (zip_code !='' && city != '' && state !='') {
 
-        weatherUrl = ''; // insert call here.
+        weatherUrl = ``;
     }
 
 
     // user provides only zip code.
     else if (zip_code != '' && city == '' && state == '') {
 
-        weatherUrl = ``; // insert call here.
+        weatherUrl = ``;
     }
 
     else if (zip_code == '' && city != '' && state != '') {
 
-        weatherUrl = '';
+        weatherUrl = ``;
     }
 
     // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
-    let result = getWeatherData(weatherUrl).then((result) => {res.send(result)});
+    let result = getWeatherData(weatherUrl).then((result) => {res.sendFile(`${pubDirectory}/html/weatherResult.html`)});
 
 });
 
@@ -98,6 +100,7 @@ app.listen(port, () => {
     https://www.weatherapi.com/api-explorer.aspx
     https://stackoverflow.com/questions/24330014/bodyparser-is-deprecated-express-4
     https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
+    https://www.youtube.com/watch?v=Lj7vHt9uJgw
 
     To start nodemon and app:
     nodemon js/main.js
