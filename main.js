@@ -5,9 +5,10 @@ const port = 9000;
 const path = require('path');
 
 app.use(express.static('public'));
-
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
+
+app.engine('html', require('ejs').renderFile);
 
 let pubDirectory = path.join(__dirname, 'public');
 
@@ -51,23 +52,23 @@ app.post('/weatherInformation', (req, res) => {
     // user provides all input fields.
     if (zip_code !='' && city != '' && state !='') {
 
-        weatherUrl = ``;
+        weatherUrl = ''
     }
 
 
     // user provides only zip code.
     else if (zip_code != '' && city == '' && state == '') {
 
-        weatherUrl = ``;
+        weatherUrl = ''
     }
 
     else if (zip_code == '' && city != '' && state != '') {
 
-        weatherUrl = ``;
+        weatherUrl = ''
     }
 
     // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
-    let result = getWeatherData(weatherUrl).then((result) => {res.sendFile(`${pubDirectory}/html/weatherResult.html`)});
+    let result = getWeatherData(weatherUrl).then((result) => {res.render(`${pubDirectory}/html/weatherResult.html`, {result:result})});
 
 });
 
@@ -101,6 +102,8 @@ app.listen(port, () => {
     https://stackoverflow.com/questions/24330014/bodyparser-is-deprecated-express-4
     https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
     https://www.youtube.com/watch?v=Lj7vHt9uJgw
+    https://www.npmjs.com/package/ejs
+    https://stackoverflow.com/questions/37991995/passing-a-variable-from-node-js-to-html
 
     To start nodemon and app:
     nodemon js/main.js
