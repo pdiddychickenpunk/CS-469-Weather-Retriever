@@ -49,23 +49,23 @@ app.post('/weatherInformation', (req, res) => {
     let zip_code = locationInformation['zipCode'];
     let city = locationInformation['city'];
     let state = locationInformation['state'];
-    let weatherUrl = ''
+    let weatherUrl = ``
     // user provides all input fields.
     if (zip_code !='' && city != '' && state !='') {
 
-        weatherUrl = ''
+        weatherUrl = ``
     }
 
 
     // user provides only zip code.
     else if (zip_code != '' && city == '' && state == '') {
 
-        weatherUrl = ''
+        weatherUrl = ``
     }
 
     else if (zip_code == '' && city != '' && state != '') {
 
-        weatherUrl = ''
+        weatherUrl = ``
     }
 
     // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
