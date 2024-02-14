@@ -1,9 +1,37 @@
 const express = require('express');
+const { url } = require('inspector');
 const app = express();
 const port = 9000;
 const path = require('path');
 
 app.use(express.static('public'));
+
+app.use(express.urlencoded({extended:true}));
+app.use(express.json());
+
+
+async function getWeatherData(url) {
+
+    /*
+
+    Calls the Weather API using the provided url. The url
+    parameter must contain the API key and the parameter(s)
+    needed for a specific call.
+
+    */
+
+    const response = await fetch(url);
+    const weatherResult = await response.json();
+    let city = weatherResult['location']['name'];
+    let state = weatherResult['location']['region'];
+    let country = weatherResult['location']['country'];
+    let latitude = weatherResult['location']['lat'];
+    let longitude = weatherResult['location']['lon'];
+    let timeZone = weatherResult['location']['tz_id'];
+    let localTime = weatherResult['location']['localtime'];
+    let result = `Here is the weather in ${city} ${state}: Latitude: ${latitude}. Longitude: ${longitude}. Time Zone: ${timeZone}. Local Time: ${localTime}.`;
+    return result;
+}
 
 app.get('/', (req, res) => {
 
@@ -11,10 +39,33 @@ app.get('/', (req, res) => {
 
 });
 
-app.get('/weatherInformation', (req, res) => {
+app.post('/weatherInformation', (req, res) => {
 
-    const weatherData = { city: 'Vancouver', state: 'Washington', zip_code: '98662' };
-    res.json(weatherData);
+    let locationInformation = req.body;
+    let zip_code = locationInformation['zipCode'];
+    let city = locationInformation['city'];
+    let state = locationInformation['state'];
+    let weatherUrl = ''
+    // user provides all input fields.
+    if (zip_code !='' && city != '' && state !='') {
+
+        weatherUrl = ''; // insert call here.
+    }
+
+
+    // user provides only zip code.
+    else if (zip_code != '' && city == '' && state == '') {
+
+        weatherUrl = ``; // insert call here.
+    }
+
+    else if (zip_code == '' && city != '' && state != '') {
+
+        weatherUrl = '';
+    }
+
+    // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
+    let result = getWeatherData(weatherUrl).then((result) => {res.send(result)})
 
 });
 
@@ -24,21 +75,6 @@ app.listen(port, () => {
 
 });
 
-
-/*
-async function getWeatherData() {
-
-    const response = await fetch('/weatherInformation');
-    const information = await response.json();
-    let city = information['city'];
-    let state = information['state'];
-    let zip_code = information['zip_code'];
-    console.log(`City: ${city}. State: ${state}. Zip Code: ${zip_code}.`);
-}
-
-getWeatherData();
-
-*/
 
 /*
     Attributions:
@@ -56,7 +92,13 @@ getWeatherData();
     https://www.youtube.com/watch?v=fyc-4YmgLu0
     https://www.youtube.com/watch?v=C_vv1D5oDZ0
     https://www.youtube.com/watch?v=PbfjNTsHfaU
-    
+    https://stackoverflow.com/questions/69212019/error-in-postman-req-body-is-not-a-function
+    https://www.youtube.com/watch?v=-qkU95vNqTo
+    https://www.youtube.com/watch?v=vegqqDjulKg
+    https://www.weatherapi.com/api-explorer.aspx
+    https://stackoverflow.com/questions/24330014/bodyparser-is-deprecated-express-4
+    https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
+
     To start nodemon and app:
     nodemon js/main.js
 
