@@ -8,6 +8,7 @@ app.use(express.static('public'));
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
+// https://stackoverflow.com/questions/37991995/passing-a-variable-from-node-js-to-html
 app.engine('html', require('ejs').renderFile);
 
 let pubDirectory = path.join(__dirname, 'public');
