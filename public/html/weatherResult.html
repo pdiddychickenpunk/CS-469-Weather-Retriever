@@ -9,7 +9,34 @@
 <body>
 
     <h1>Congrats, you got some weather data.</h1>
-    <h4><%=result%></h4>
+    <% 
+       https://stackoverflow.com/questions/50589657/how-to-declare-variable-in-ejs
+       let city = result.city;
+       let state = result.state;
+       let country = result.country;
+       let latitude = result.latitude;
+       let longitude = result.longitude;
+       let timeZone = result.timeZone;
+       let localTime = result.localTime;
+       let fahrenheit = result.fahrenheit;
+       let feelsLikeFahrenheit = result.fahrenheit;
+       let visibility = result.visibility;
+       let wind_mph = result.wind_mph;
+       let windDirection = result.windDirection;
+       let timeOfDay = result.timeOfDay;
+       let weatherSummary = result.weatherSummary;
+       let weatherPicture = result.weatherPicture;
     
+    %>
+
+    <h4>City: <%=city %></h4>
+
 </body>
 </html>
+
+<!--
+    Attributions:
+
+    https://stackoverflow.com/questions/50589657/how-to-declare-variable-in-ejs
+
+-->
