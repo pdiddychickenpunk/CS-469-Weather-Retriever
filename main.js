@@ -33,7 +33,33 @@ async function getWeatherData(url) {
     let longitude = weatherResult['location']['lon'];
     let timeZone = weatherResult['location']['tz_id'];
     let localTime = weatherResult['location']['localtime'];
-    let result = `Here is the weather in ${city} ${state}: Latitude: ${latitude}. Longitude: ${longitude}. Time Zone: ${timeZone}. Local Time: ${localTime}.`;
+    let fahrenheit = weatherResult['current']['temp_f'];
+    let feelsLikeFahrenheit = weatherResult['current']['feelslike_f'];
+    let visibility = weatherResult['current']['vis_miles'];
+    let wind_mph = weatherResult['current']['wind_mph'];
+    let windDirection = weatherResult['current']['wind_dir'];
+    let timeOfDay = weatherResult['current']['is_day'];
+    timeOfDay == 0 ? timeOfDay = 'Nighttime' : timeOfDay = 'Daytime';
+    let weatherSummary = weatherResult['current']['condition']['text'];
+    let weatherPicture = weatherResult['current']['condition']['icon'];
+    let result = {
+        city: city, 
+        state: state, 
+        country: country,
+        latitude: latitude,
+        longitude: longitude,
+        timeZone: timeZone,
+        localTime: localTime,
+        fahrenheit: fahrenheit,
+        feelsLikeFahrenheit: feelsLikeFahrenheit,
+        visibility: visibility,
+        wind_mph: wind_mph,
+        windDirection: windDirection,
+        timeOfDay: timeOfDay,
+        weatherSummary: weatherSummary,
+        weatherPicture: weatherPicture
+    }
+
     return result;
 }
 
@@ -105,6 +131,10 @@ app.listen(port, () => {
     https://www.youtube.com/watch?v=Lj7vHt9uJgw
     https://www.npmjs.com/package/ejs
     https://stackoverflow.com/questions/37991995/passing-a-variable-from-node-js-to-html
+    https://www.merriam-webster.com/dictionary/nighttime#:~:text=%E2%80%9CNighttime.%E2%80%9D%20Merriam%2DWebster,.com%2Fdictionary%2Fnighttime.
+    https://www.quora.com/What-is-the-difference-between-day-time-and-daytime#:~:text=The%20main%20difference%20between%20the,and%20it%20is%20light%20outside.
+    https://www.swc.nd.gov/arb/news/atmospheric_reservoir/pdfs/2015_05%20-%20Fahrenheit%20vs%20Celsius.pdf
+    https://www.weatherapi.com/docs/
 
     To start nodemon and app:
     nodemon js/main.js
