@@ -1,77 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/weatherResult.css">
     <title>Weather Result</title>
 </head>
+
 <body>
 
     <!--https://stackoverflow.com/questions/50589657/how-to-declare-variable-in-ejs-->
-    <% 
-       let city = result.city;
-       let state = result.state;
-       let country = result.country;
-       let latitude = result.latitude;
-       let longitude = result.longitude;
-       let timeZone = result.timeZone;
-       let localTime = result.localTime;
-       let fahrenheit = result.fahrenheit;
-       let feelsLikeFahrenheit = result.fahrenheit;
-       let visibility = result.visibility;
-       let wind_mph = result.wind_mph;
-       let windDirection = result.windDirection;
-       let timeOfDay = result.timeOfDay;
-       let weatherSummary = result.weatherSummary;
-       let weatherPicture = result.weatherPicture;
-    
-    %>
+    <% let city=result.city; let state=result.state; let country=result.country; let latitude=result.latitude; let
+        longitude=result.longitude; let timeZone=result.timeZone; let localTime=result.localTime; let
+        fahrenheit=result.fahrenheit; let feelsLikeFahrenheit=result.fahrenheit; let visibility=result.visibility; let
+        wind_mph=result.wind_mph; let windDirection=result.windDirection; let timeOfDay=result.timeOfDay; let
+        weatherSummary=result.weatherSummary; let weatherPicture=result.weatherPicture; %>
 
-    <div class="appCanvas">
+        <div class="appCanvas">
 
-        <div class="weatherData">
+            <div class="weatherData">
 
-            <h4 id="weatherSummary">Weather Summary: <%=weatherSummary %></h4>
-            <h4 id="user_city">City: <%=city %></h4>
-            <h4 id="user_state">State: <%=state %></h4>
-            <h4 id="country">Country: <%=country %></h4>
-            <h4 id="latitude">Latitude: <%=latitude %></h4>
-            <h4 id="longitude">Longtitude: <%=longitude %></h4>
-            <h4 id="localTime">Time Zone: <%=localTime %></h4>
-            <h4 id="fahrenheit">Temperature (F): <%=fahrenheit %></h4>
-            <h4 id="feelsLikeFahrenheit">Feels Like: <%=feelsLikeFahrenheit %></h4>
-            <h4 id="visibility">Visibility: <%=visibility %> miles</h4>
-            <h4 id="wind_mph">Wind Speed: <%=wind_mph %></h4>
-            <h4 id="windDirection">Wind Direction: <%=windDirection %></h4>
-            <h4 id="timeOfDay">Day or Night: <%=timeOfDay %></h4>
+                <h4 id="weatherSummary">Weather Summary: <%=weatherSummary %>
+                </h4>
+                <h4 id="user_city">City: <%=city %>
+                </h4>
+                <h4 id="user_state">State: <%=state %>
+                </h4>
+                <h4 id="country">Country: <%=country %>
+                </h4>
+                <h4 id="latitude">Latitude: <%=latitude %>
+                </h4>
+                <h4 id="longitude">Longtitude: <%=longitude %>
+                </h4>
+                <h4 id="localTime">Time Zone: <%=localTime %>
+                </h4>
+                <h4 id="fahrenheit">Temperature (F): <%=fahrenheit %>
+                </h4>
+                <h4 id="feelsLikeFahrenheit">Feels Like: <%=feelsLikeFahrenheit %>
+                </h4>
+                <h4 id="visibility">Visibility: <%=visibility %> miles</h4>
+                <h4 id="wind_mph">Wind Speed: <%=wind_mph %>
+                </h4>
+                <h4 id="windDirection">Wind Direction: <%=windDirection %>
+                </h4>
+                <h4 id="timeOfDay">Day or Night: <%=timeOfDay %>
+                </h4>
+
+            </div>
+
+            <div class="userInputFormSection">
+
+                <form action="/weatherInformation" method="post">
+
+                    <label class="inputLabel" for="zipCode">Zip Code:</label>
+                    <input type="number" id="zipCode" placeholder="85205" name="zipCode" required>
+
+                    <label class="inputLabel" for="city">City:</label>
+                    <input type="text" id="city" placeholder="Mesa" name="city" required>
+
+                    <label class="inputLabel" for="state">State:</label>
+                    <input type="text" id="state" placeholder="Arizona" name="state" required>
+
+                    <button type="reset">Reset</button>
+                    <button type="submit">FETCH Weather Data</button>
+
+                </form>
+
+            </div>
+
+            <div id="backButtonContainer">
+
+                <!--https://stackoverflow.com/questions/16036041/can-a-html-button-perform-a-post-request-->
+                <form action="/" method="get">
+
+                    <button type="submit" id="backButton">Back to Home</button>
+
+                </form>
+
+            </div>
 
         </div>
-
-        <div class="userInputFormSection">
-
-            <form action="/weatherInformation" method="post">
-
-                <label class="inputLabel" for="zipCode">Zip Code:</label>
-                <input type="number" id="zipCode" placeholder="85205" name="zipCode" required>
-
-                <label class="inputLabel" for="city">City:</label>
-                <input type="text" id="city" placeholder="Mesa" name="city" required>
-
-                <label class="inputLabel" for="state">State:</label>
-                <input type="text" id="state" placeholder="Arizona" name="state" required>
-
-                <button type="reset">Reset</button>
-                <button type="submit">FETCH Weather Data</button>
-
-            </form>
-
-        </div>
-        
-    </div>
 
 
 </body>
+
 </html>
 
 <!--
@@ -79,5 +92,6 @@
 
     https://stackoverflow.com/questions/50589657/how-to-declare-variable-in-ejs
     https://www.weatherapi.com/docs/
+    https://stackoverflow.com/questions/16036041/can-a-html-button-perform-a-post-request
 
 -->
