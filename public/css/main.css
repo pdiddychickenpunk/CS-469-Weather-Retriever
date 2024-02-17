@@ -61,6 +61,13 @@ button {
     justify-content: space-evenly;
 }
 
+#zipCode,
+#city,
+#state {
+
+    color: beige;
+}
+
 .userInputMessageSection {
 
     border: 5px solid grey;
