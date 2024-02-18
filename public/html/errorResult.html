@@ -12,20 +12,26 @@
 <body>
 
     <!--https://stackoverflow.com/questions/50589657/how-to-declare-variable-in-ejs-->
-    <% let city=result.city; let state=result.state; let country=result.country; let latitude=result.latitude; let
-        longitude=result.longitude; let timeZone=result.timeZone; let localTime=result.localTime; let
-        fahrenheit=result.fahrenheit; let feelsLikeFahrenheit=result.fahrenheit; let visibility=result.visibility; let
-        wind_mph=result.wind_mph; let windDirection=result.windDirection; let timeOfDay=result.timeOfDay; let
-        weatherSummary=result.weatherSummary; let weatherPicture=result.weatherPicture; %>
+    <% let errorCode=result.errorCode; let errorReason=result.errorMessage; let errorResolution='' ; if
+        (errorCode==1005) {
+        errorResolution='Check the source code and verify the API call is constructed per the API specs.' ; } else if
+        (errorCode==1006) { errorResolution='Double check your location information is correct. Then try again.' ; }
+        else if (errorCode==2006) { errorResolution='Double check the API key is correct in the local file.' ; } else if
+        (errorCode==2007) { errorResolution='Check vendor site for when API call quota refreshes.' ; } else if
+        (errorCode==2008) {
+        errorResolution='Login into vendor site and check for a reason the key is disabled. Check email as well.' ; }
+        else { errorResolution: 'Compare the error code to the vendor API doc error list. Find root cause of issue.' ; }
+        %>
 
         <div class="appCanvas">
 
             <div class="weatherData">
 
                 <h4>Whoops! Cannot find that location!</h4>
-                <p>This error could mean you entered an invalid location.</p>\
-                <p>It could also indicate an API issue. Verify you entered a valid</p>
-                <p>location and that the external service is online. Then try again.</p>
+                <p>Error Reason: <%=errorReason %>
+                </p>
+                <p>Resolution: <%=errorResolution %>
+                </p>
 
             </div>
 
