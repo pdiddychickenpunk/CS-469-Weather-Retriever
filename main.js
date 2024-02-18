@@ -13,7 +13,6 @@ app.engine('html', require('ejs').renderFile);
 
 let pubDirectory = path.join(__dirname, 'public');
 
-console.log(pubDirectory);
 async function getWeatherData(url) {
 
     /*
@@ -76,20 +75,21 @@ app.post('/weatherInformation', (req, res) => {
     let city = locationInformation['city'];
     let state = locationInformation['state'];
     let weatherUrl = ``
+
     // user provides all input fields.
-    if (zip_code !='' && city != '' && state !='') {
+    if ( (zip_code != "") && (city != "") && (state != "") ) {
 
         weatherUrl = ``
     }
-
 
     // user provides only zip code.
-    else if (zip_code != '' && city == '' && state == '') {
+    else if ( (zip_code != "") && ((city == "") || (state == "")) ) {
 
         weatherUrl = ``
     }
 
-    else if (zip_code == '' && city != '' && state != '') {
+    // user provides city and state but not zip.
+    else if ( (zip_code == "") && (city != "" && state != "") ) {
 
         weatherUrl = ``
     }
@@ -104,7 +104,6 @@ app.listen(port, () => {
     console.log(`Listening on port: ${port}.`);
 
 });
-
 
 /*
     Attributions:
