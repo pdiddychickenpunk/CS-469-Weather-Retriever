@@ -149,7 +149,7 @@ app.post('/weatherInformation', (req, res) => {
     // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
     let result = getWeatherData(weatherUrl).then(
         
-        (result) => {result.hasOwnProperty('errorCode') ? res.render(`${pubDirectory}/html/errorResult.html`) : res.render(`${pubDirectory}/html/weatherResult.html`, {result:result})});
+        (result) => {result.hasOwnProperty('errorCode') ? res.render(`${pubDirectory}/html/errorResult.html`, {result: result}) : res.render(`${pubDirectory}/html/weatherResult.html`, {result:result})});
 
 });
 
