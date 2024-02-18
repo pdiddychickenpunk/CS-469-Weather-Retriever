@@ -3,6 +3,36 @@ const { url } = require('inspector');
 const app = express();
 const port = 9000;
 const path = require('path');
+let key = '';
+
+// https://nodejs.org/docs/latest/api/process.html#processargv
+const { argv } = require('node:process');
+
+// https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs
+const fileStream = require('node:fs');
+const { error } = require('console');
+
+// https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs
+let apiKeyPath = argv[2];
+fileStream.readFile(apiKeyPath, 'utf-8', (error, fileData) => {
+
+    if (error) {
+
+        console.log(`Problem reading API key from file: ${apiKeyPath}`);
+        return;
+
+    }
+
+    key = fileData;
+
+});
+
+// https://nodejs.org/docs/latest/api/process.html#processargv
+argv.forEach((val, index) => {
+
+    console.log(`${index}: ${val}`);
+
+  });
 
 app.use(express.static('public'));
 app.use(express.urlencoded({extended:true}));
@@ -12,6 +42,7 @@ app.use(express.json());
 app.engine('html', require('ejs').renderFile);
 
 let pubDirectory = path.join(__dirname, 'public');
+
 
 async function getWeatherData(url) {
 
@@ -79,19 +110,25 @@ app.post('/weatherInformation', (req, res) => {
     // user provides all input fields.
     if ( (zip_code != "") && (city != "") && (state != "") ) {
 
-        weatherUrl = ``
+        weatherUrl = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${zip_code}&aqi=no`;
     }
 
     // user provides only zip code.
-    else if ( (zip_code != "") && ((city == "") || (state == "")) ) {
+    else if ( (zip_code != "") && ((city == "") && (state == "")) ) {
 
-        weatherUrl = ``
+        weatherUrl = weatherUrl = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${zip_code}&aqi=no`;
     }
 
     // user provides city and state but not zip.
     else if ( (zip_code == "") && (city != "" && state != "") ) {
 
-        weatherUrl = ``
+        weatherUrl = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${city}&q=${state}&aqi=no`;
+    }
+
+    else if ( (zip_code == "") && (city == "" || state == "") ) {
+
+        weatherUrl = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${zip_code}&aqi=no`;
+
     }
 
     // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
@@ -134,8 +171,7 @@ app.listen(port, () => {
     https://www.quora.com/What-is-the-difference-between-day-time-and-daytime#:~:text=The%20main%20difference%20between%20the,and%20it%20is%20light%20outside.
     https://www.swc.nd.gov/arb/news/atmospheric_reservoir/pdfs/2015_05%20-%20Fahrenheit%20vs%20Celsius.pdf
     https://www.weatherapi.com/docs/
-
-    To start nodemon and app:
-    nodemon js/main.js
+    https://nodejs.org/docs/latest/api/process.html#processargv
+    https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs
 
 */
