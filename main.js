@@ -13,6 +13,7 @@ const fileStream = require('node:fs');
 const { error } = require('console');
 
 // https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs
+// Read in a key file that contains the API key. Prevents exposure of API key.
 let apiKeyPath = argv[2];
 fileStream.readFile(apiKeyPath, 'utf-8', (error, fileData) => {
 
@@ -26,13 +27,6 @@ fileStream.readFile(apiKeyPath, 'utf-8', (error, fileData) => {
     key = fileData;
 
 });
-
-// https://nodejs.org/docs/latest/api/process.html#processargv
-argv.forEach((val, index) => {
-
-    console.log(`${index}: ${val}`);
-
-  });
 
 app.use(express.static('public'));
 app.use(express.urlencoded({extended:true}));
@@ -56,42 +50,63 @@ async function getWeatherData(url) {
 
     const response = await fetch(url);
     const weatherResult = await response.json();
-    let city = weatherResult['location']['name'];
-    let state = weatherResult['location']['region'];
-    let country = weatherResult['location']['country'];
-    let latitude = weatherResult['location']['lat'];
-    let longitude = weatherResult['location']['lon'];
-    let timeZone = weatherResult['location']['tz_id'];
-    let localTime = weatherResult['location']['localtime'];
-    let fahrenheit = weatherResult['current']['temp_f'];
-    let feelsLikeFahrenheit = weatherResult['current']['feelslike_f'];
-    let visibility = weatherResult['current']['vis_miles'];
-    let wind_mph = weatherResult['current']['wind_mph'];
-    let windDirection = weatherResult['current']['wind_dir'];
-    let timeOfDay = weatherResult['current']['is_day'];
-    timeOfDay == 0 ? timeOfDay = 'Nighttime' : timeOfDay = 'Daytime';
-    let weatherSummary = weatherResult['current']['condition']['text'];
-    let weatherPicture = weatherResult['current']['condition']['icon'];
-    let result = {
-        city: city, 
-        state: state, 
-        country: country,
-        latitude: latitude,
-        longitude: longitude,
-        timeZone: timeZone,
-        localTime: localTime,
-        fahrenheit: fahrenheit,
-        feelsLikeFahrenheit: feelsLikeFahrenheit,
-        visibility: visibility,
-        wind_mph: wind_mph,
-        windDirection: windDirection,
-        timeOfDay: timeOfDay,
-        weatherSummary: weatherSummary,
-        weatherPicture: weatherPicture
+
+    if (weatherResult.hasOwnProperty('error')) {
+
+        let errorCode = weatherResult['error']['code'];
+        let errorMessage = weatherResult['error']['message'];
+        result = {
+            
+        errorCode: errorCode,
+        errorMessage: errorMessage
+
+    };
+        return result;
     }
 
-    return result;
-}
+    else {
+
+        let city = weatherResult['location']['name'];
+        let state = weatherResult['location']['region'];
+        let country = weatherResult['location']['country'];
+        let latitude = weatherResult['location']['lat'];
+        let longitude = weatherResult['location']['lon'];
+        let timeZone = weatherResult['location']['tz_id'];
+        let localTime = weatherResult['location']['localtime'];
+        let fahrenheit = weatherResult['current']['temp_f'];
+        let feelsLikeFahrenheit = weatherResult['current']['feelslike_f'];
+        let visibility = weatherResult['current']['vis_miles'];
+        let wind_mph = weatherResult['current']['wind_mph'];
+        let windDirection = weatherResult['current']['wind_dir'];
+        let timeOfDay = weatherResult['current']['is_day'];
+        timeOfDay == 0 ? timeOfDay = 'Nighttime' : timeOfDay = 'Daytime';
+        let weatherSummary = weatherResult['current']['condition']['text'];
+        let weatherPicture = weatherResult['current']['condition']['icon'];
+    
+        let result = {
+            city: city, 
+            state: state, 
+            country: country,
+            latitude: latitude,
+            longitude: longitude,
+            timeZone: timeZone,
+            localTime: localTime,
+            fahrenheit: fahrenheit,
+            feelsLikeFahrenheit: feelsLikeFahrenheit,
+            visibility: visibility,
+            wind_mph: wind_mph,
+            windDirection: windDirection,
+            timeOfDay: timeOfDay,
+            weatherSummary: weatherSummary,
+            weatherPicture: weatherPicture
+            
+        }
+
+        return result;
+
+    }
+
+    }
 
 app.get('/', (req, res) => {
 
@@ -132,7 +147,9 @@ app.post('/weatherInformation', (req, res) => {
     }
 
     // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
-    let result = getWeatherData(weatherUrl).then((result) => {res.render(`${pubDirectory}/html/weatherResult.html`, {result:result})});
+    let result = getWeatherData(weatherUrl).then(
+        
+        (result) => {result.hasOwnProperty('errorCode') ? res.render(`${pubDirectory}/html/errorResult.html`) : res.render(`${pubDirectory}/html/weatherResult.html`, {result:result})});
 
 });
 
@@ -173,5 +190,7 @@ app.listen(port, () => {
     https://www.weatherapi.com/docs/
     https://nodejs.org/docs/latest/api/process.html#processargv
     https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs
+    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
+
 
 */
