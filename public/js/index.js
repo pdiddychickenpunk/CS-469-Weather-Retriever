@@ -7,10 +7,77 @@ specific operations for HTML and CSS.
 
 */
 
-
 let zipCodeField = document.getElementById('zipCode');
 let cityField = document.getElementById('city');
 let stateField = document.getElementById('state');
+
+function readFavoritesFileData(favoritesFile) {
+
+    /*
+
+    Reads in the favorites file and returns
+    an object containing all favorited
+    city and state records.
+
+    */
+
+        // https://www.codingninjas.com/studio/library/how-to-read-csv-file-in-javascript
+        readInterface.on('line', (line) => {
+
+            let row = line.split(',');
+            csvData.push(row);
+
+        });
+
+        // https://www.codingninjas.com/studio/library/how-to-read-csv-file-in-javascript
+        readInterface.on('close', () => {});
+
+    }
+
+
+function displayFavorites() {
+
+    /*
+
+    Displays all favorited locations on
+    the homepage.
+
+    */
+
+    let favoriteSection = document.querySelector('.favoriteSection');
+
+    for (let index = 0; index < csvData.length; index++) {
+
+        let favoriteContainer = document.createElement('div');
+
+        // https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
+        favoriteContainer.className = 'favoriteContainer';
+        let favoriteCityContainer = document.createElement('div');
+        favoriteCityContainer.className = 'favoriteCityContainer';
+        let favoriteCity = document.createElement('p');
+
+        let favoriteStateContainer = document.createElement('div');
+        favoriteStateContainer.className = 'favoriteStateContainer';
+        let favoriteState = document.createElement('p');
+
+
+        let city = csvData[index];
+        favoriteCity.textContent = city;
+
+        // let state = csvData[index];
+        //favoriteState.textContent = state;
+
+        favoriteCityContainer.appendChild(favoriteCity);
+        // favoriteStateContainer.appendChild(favoriteState);
+        favoriteContainer.appendChild(favoriteCityContainer);
+        favoriteContainer.appendChild(favoriteStateContainer);
+
+        
+        favoriteSection.appendChild(favoriteContainer);
+
+    }
+    
+}
 
 function determineUserInputRequirements(zipCode, city, state) {
 
@@ -121,5 +188,7 @@ Attributions:
 
 https://stackoverflow.com/questions/18770369/how-to-set-html5-required-attribute-in-javascript
 https://developer.mozilla.org/en-US/docs/Web/API/Element/focusout_event
+https://www.codingninjas.com/studio/library/how-to-read-csv-file-in-javascript
+https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
 
 */
