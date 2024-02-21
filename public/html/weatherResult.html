@@ -79,6 +79,24 @@
 
                 </form>
 
+                <!--https://stackoverflow.com/questions/16036041/can-a-html-button-perform-a-post-request-->
+                <!--https://stackoverflow.com/questions/36206919/how-do-i-access-ejs-data-in-a-form-while-using-express-->
+                <!--https://ejs.co/-->
+                <form action="/addToFavorites" method="post">
+
+                    <% {    %>
+
+                        let data={ city: <input type='text' name='city' value="<%= city %>">,
+                        state: <input type='text' name='state' value="<%= state %>">
+                    
+                    <% } %>
+
+                    <button type="submit" id="addToFavorites">Add Location to Favorites</button>
+
+                </form>
+
+
+
             </div>
 
         </div>
@@ -94,5 +112,7 @@
     https://stackoverflow.com/questions/50589657/how-to-declare-variable-in-ejs
     https://www.weatherapi.com/docs/
     https://stackoverflow.com/questions/16036041/can-a-html-button-perform-a-post-request
+    https://stackoverflow.com/questions/36206919/how-do-i-access-ejs-data-in-a-form-while-using-express
+    https://ejs.co/
 
 -->
