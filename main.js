@@ -15,6 +15,8 @@ const { error } = require('console');
 // https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs
 // Read in a key file that contains the API key. Prevents exposure of API key.
 let apiKeyPath = argv[2];
+let favoritesPath = path.join(__dirname, '\\public\\', '\\favorites\\', 'favorites.csv')
+
 fileStream.readFile(apiKeyPath, 'utf-8', (error, fileData) => {
 
     if (error) {
@@ -121,43 +123,35 @@ app.post('/addToFavorites', (req, res) => {
     let city = favorite['city'];
     let state = favorite['state'];
     console.log(`Favorites Action: POST request made successfully.`);
-    let data = {
 
-        zip_code: zip_code,
-        city: city,
-        state: state,
+    if ((city != "") && (state != "")) {
+
+        console.log(`Favorites Action: city and state provided. ${JSON.stringify(favorite)}`);
     }
 
-    if ((zip_code != "") && (city != "") && (state != "")) {
-
-        console.log(`Favorites Action: zip code, city, and state provided. ${JSON.stringify(data)}`);
-    }
-
-    // user provides only zip code.
-    else if ((zip_code != "") && ((city == "") && (state == ""))) {
-
-        delete data.city;
-        delete data.state;
-        console.log(`Favorites Action: Only zip code provided. ${data}`);
-    }
-
-    // user provides city and state but not zip.
-    else if ((zip_code == "") && (city != "" && state != "")) {
-
-        delete data.zip_code;
-        console.log(`Favorites Action: City and state provided but not zip code. ${data}`);
-    }
 
     else {
 
-        console.log(`Favorites Action: ERROR. ${data}`);
+        console.log(`Favorites Action: ERROR. ${favorite}`);
 
     }
 
     // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
-    //let result = getWeatherData(weatherUrl).then(
+    // https://stackoverflow.com/questions/69292467/getting-and-passing-object-to-node-js-render-method
 
-        //(result) => { result.hasOwnProperty('errorCode') ? res.render(`${pubDirectory}/html/errorResult.html`, { result: result }) : res.render(`${pubDirectory}/html/weatherResult.html`, { result: result }) });
+    // Represents a single entry in the favorites.csv file.
+    let favoritesData = String(city) + ',' + String(state) + '\n';
+
+    fileStream.appendFile(favoritesPath, favoritesData, (error) => {
+
+        if (error) {
+
+            console.log(`ERROR: Cannot write favorite record to storage. Error Reason: ${error}`);
+        }
+
+
+
+    });
 
 });
 
@@ -238,6 +232,7 @@ app.listen(port, () => {
     https://nodejs.org/docs/latest/api/process.html#processargv
     https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
-
+    https://stackoverflow.com/questions/69292467/getting-and-passing-object-to-node-js-render-method
+    https://nodejs.org/en/learn/manipulating-files/writing-files-with-nodejs
 
 */
