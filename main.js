@@ -29,7 +29,7 @@ fileStream.readFile(apiKeyPath, 'utf-8', (error, fileData) => {
 });
 
 app.use(express.static('public'));
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // https://stackoverflow.com/questions/37991995/passing-a-variable-from-node-js-to-html
@@ -56,11 +56,11 @@ async function getWeatherData(url) {
         let errorCode = weatherResult['error']['code'];
         let errorMessage = weatherResult['error']['message'];
         result = {
-            
-        errorCode: errorCode,
-        errorMessage: errorMessage
 
-    };
+            errorCode: errorCode,
+            errorMessage: errorMessage
+
+        };
         return result;
     }
 
@@ -82,10 +82,10 @@ async function getWeatherData(url) {
         timeOfDay == 0 ? timeOfDay = 'Nighttime' : timeOfDay = 'Daytime';
         let weatherSummary = weatherResult['current']['condition']['text'];
         let weatherPicture = weatherResult['current']['condition']['icon'];
-    
+
         let result = {
-            city: city, 
-            state: state, 
+            city: city,
+            state: state,
             country: country,
             latitude: latitude,
             longitude: longitude,
@@ -99,18 +99,65 @@ async function getWeatherData(url) {
             timeOfDay: timeOfDay,
             weatherSummary: weatherSummary,
             weatherPicture: weatherPicture
-            
+
         }
 
         return result;
 
     }
 
-    }
+}
 
 app.get('/', (req, res) => {
 
     res.sendFile(path.join(__dirname, '\\public\\', '\\html\\', 'index.html'));
+
+});
+
+app.post('/addToFavorites', (req, res) => {
+
+    let favorite = req.body;
+    let zip_code = favorite['zipCode'];
+    let city = favorite['city'];
+    let state = favorite['state'];
+    console.log(`Favorites Action: POST request made successfully.`);
+    let data = {
+
+        zip_code: zip_code,
+        city: city,
+        state: state,
+    }
+
+    if ((zip_code != "") && (city != "") && (state != "")) {
+
+        console.log(`Favorites Action: zip code, city, and state provided. ${JSON.stringify(data)}`);
+    }
+
+    // user provides only zip code.
+    else if ((zip_code != "") && ((city == "") && (state == ""))) {
+
+        delete data.city;
+        delete data.state;
+        console.log(`Favorites Action: Only zip code provided. ${data}`);
+    }
+
+    // user provides city and state but not zip.
+    else if ((zip_code == "") && (city != "" && state != "")) {
+
+        delete data.zip_code;
+        console.log(`Favorites Action: City and state provided but not zip code. ${data}`);
+    }
+
+    else {
+
+        console.log(`Favorites Action: ERROR. ${data}`);
+
+    }
+
+    // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
+    //let result = getWeatherData(weatherUrl).then(
+
+        //(result) => { result.hasOwnProperty('errorCode') ? res.render(`${pubDirectory}/html/errorResult.html`, { result: result }) : res.render(`${pubDirectory}/html/weatherResult.html`, { result: result }) });
 
 });
 
@@ -123,24 +170,24 @@ app.post('/weatherInformation', (req, res) => {
     let weatherUrl = ``
 
     // user provides all input fields.
-    if ( (zip_code != "") && (city != "") && (state != "") ) {
+    if ((zip_code != "") && (city != "") && (state != "")) {
 
         weatherUrl = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${zip_code}&aqi=no`;
     }
 
     // user provides only zip code.
-    else if ( (zip_code != "") && ((city == "") && (state == "")) ) {
+    else if ((zip_code != "") && ((city == "") && (state == ""))) {
 
         weatherUrl = weatherUrl = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${zip_code}&aqi=no`;
     }
 
     // user provides city and state but not zip.
-    else if ( (zip_code == "") && (city != "" && state != "") ) {
+    else if ((zip_code == "") && (city != "" && state != "")) {
 
         weatherUrl = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${city}&q=${state}&aqi=no`;
     }
 
-    else if ( (zip_code == "") && (city == "" || state == "") ) {
+    else if ((zip_code == "") && (city == "" || state == "")) {
 
         weatherUrl = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${zip_code}&aqi=no`;
 
@@ -148,8 +195,8 @@ app.post('/weatherInformation', (req, res) => {
 
     // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
     let result = getWeatherData(weatherUrl).then(
-        
-        (result) => {result.hasOwnProperty('errorCode') ? res.render(`${pubDirectory}/html/errorResult.html`, {result: result}) : res.render(`${pubDirectory}/html/weatherResult.html`, {result:result})});
+
+        (result) => { result.hasOwnProperty('errorCode') ? res.render(`${pubDirectory}/html/errorResult.html`, { result: result }) : res.render(`${pubDirectory}/html/weatherResult.html`, { result: result }) });
 
 });
 
