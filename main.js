@@ -112,7 +112,8 @@ async function getWeatherData(url) {
 
 app.get('/', (req, res) => {
 
-    res.sendFile(path.join(__dirname, '\\public\\', '\\html\\', 'index.html'));
+   res.sendFile(path.join(__dirname, '\\public\\', '\\html\\', 'index.html'));
+    
 
 });
 
@@ -128,7 +129,6 @@ app.post('/addToFavorites', (req, res) => {
 
         console.log(`Favorites Action: city and state provided. ${JSON.stringify(favorite)}`);
     }
-
 
     else {
 
@@ -148,8 +148,6 @@ app.post('/addToFavorites', (req, res) => {
 
             console.log(`ERROR: Cannot write favorite record to storage. Error Reason: ${error}`);
         }
-
-
 
     });
 
