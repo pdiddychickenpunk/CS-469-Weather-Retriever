@@ -10,30 +10,21 @@ specific operations for HTML and CSS.
 let zipCodeField = document.getElementById('zipCode');
 let cityField = document.getElementById('city');
 let stateField = document.getElementById('state');
+let favoriteSection = document.querySelector('.favoriteSection');
 
-function readFavoritesFileData(favoritesFile) {
+async function getFavorites() {
 
     /*
 
-    Reads in the favorites file and returns
-    an object containing all favorited
-    city and state records.
+    Performs a GET request to the server to retrieve favorites data.
 
     */
 
-        // https://www.codingninjas.com/studio/library/how-to-read-csv-file-in-javascript
-        readInterface.on('line', (line) => {
+    const response = await fetch('http://localhost:9000/getFavorites');
+    const favorites = await response.json();
+    return favorites;
 
-            let row = line.split(',');
-            csvData.push(row);
-
-        });
-
-        // https://www.codingninjas.com/studio/library/how-to-read-csv-file-in-javascript
-        readInterface.on('close', () => {});
-
-    }
-
+}
 
 function displayFavorites() {
 
@@ -182,6 +173,21 @@ stateField.addEventListener('focusout', () => {
 });
 
 
+// https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
+let favorites = getFavorites().then(
+
+// https://www.freecodecamp.org/news/how-to-iterate-over-objects-in-javascript/
+(favorites) => { for (key in favorites) {
+
+    let city = favorites[key];
+    let state = key;
+    let favorite = document.createElement('p');
+    favorite.textContent = `City: ${city}. State: ${state}`;
+    favoriteSection.appendChild(favorite);
+    
+}});
+
+
 /*
 
 Attributions:
@@ -190,5 +196,6 @@ https://stackoverflow.com/questions/18770369/how-to-set-html5-required-attribute
 https://developer.mozilla.org/en-US/docs/Web/API/Element/focusout_event
 https://www.codingninjas.com/studio/library/how-to-read-csv-file-in-javascript
 https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
+https://www.freecodecamp.org/news/how-to-iterate-over-objects-in-javascript/
 
 */
