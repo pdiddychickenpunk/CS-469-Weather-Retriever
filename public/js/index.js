@@ -186,6 +186,29 @@ stateField.addEventListener('focusout', () => {
     determineUserInputRequirements(zipCodeValue, cityValue, stateValue);
 });
 
+showFavoritesButton.addEventListener('click', () => {
+
+    /*
+    
+    Before displaying the favorites, we wipe the favorites area clean.
+    
+    */
+    
+    clearFavoritesDisplay();
+    
+    // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
+    let favorites = getFavorites().then(
+    // https://www.freecodecamp.org/news/how-to-iterate-over-objects-in-javascript/
+    (favorites) => { for (key in favorites) {
+    
+        let city = favorites[key];
+        let state = key;
+        let favorite = document.createElement('p');
+        favorite.textContent = `City: ${city}. State: ${state}`;
+        favoriteSection.appendChild(favorite);
+        
+    }})});
+
 document.addEventListener('DOMContentLoaded', () => {
 
 /*
