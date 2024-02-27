@@ -186,7 +186,7 @@ stateField.addEventListener('focusout', () => {
     determineUserInputRequirements(zipCodeValue, cityValue, stateValue);
 });
 
-showFavoritesButton.addEventListener('click', () => {
+document.addEventListener('DOMContentLoaded', () => {
 
 /*
 
