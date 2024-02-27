@@ -27,6 +27,116 @@ async function getFavorites() {
 
 }
 
+async function getFavoriteWeatherData(city, state) {
+
+    /*
+
+    Performs an API call to the Weather API
+    by using information for a favorited location.
+    The resulting weather is returned in the standard
+    '/weatherInformation' route.
+
+    */
+
+    // https://www.freecodecamp.org/news/javascript-post-request-how-to-send-an-http-post-request-in-js/
+    fetch('http://localhost:9000/weatherInformation', {
+
+        method: "POST",
+        body: JSON.stringify({
+
+            city: city,
+            state: state,
+            zipCode: 'undefined' // Endpoint expects zipcode, even though we don't have it here.
+
+        }),
+
+    });
+
+    console.log(`POST request for ${city} sent.`);
+}
+
+function buildFetchLocationButton(city, state) {
+
+    /*
+
+    Returns a new 'Fetch this location' button
+    to be used on new favorite location
+    items.
+
+    */
+
+    let fetchThisLocationButton = document.createElement('button');
+    fetchThisLocationButton.textContent = `Fetch ${city} Weather`;
+    fetchThisLocationButton.addEventListener('click', () => {
+
+        // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
+        let result = getFavoriteWeatherData(city, state).then(
+
+            (result) => { console.log(result) });
+    });
+
+    return fetchThisLocationButton;
+
+}
+
+function buildFavoritesContainer(city, state) {
+
+    /*
+
+    Returns a new container to hold all
+    favorite location items for a single
+    favorite location.
+
+    */
+
+    let favoriteContainer = document.createElement('div');
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
+    favoriteContainer.className = 'favoriteContainer';
+
+    return favoriteContainer;
+
+}
+
+function buildFavoriteCityContainer(city, state) {
+
+    /*
+
+    Returns a new container to hold
+    the favorite city item for a single
+    favorite location.
+
+    */
+
+    let favoriteCityContainer = document.createElement('div');
+    favoriteCityContainer.className = 'favoriteCityContainer';
+    let favoriteCity = document.createElement('p');
+    favoriteCity.textContent = city;
+    favoriteCityContainer.appendChild(favoriteCity);
+
+    return favoriteCityContainer;
+
+}
+
+function buildFavoriteStateContainer(city, state) {
+
+    /*
+
+    Returns a new container to hold
+    the favorite state item for a single
+    favorite location.
+
+    */
+
+    let favoriteStateContainer = document.createElement('div');
+    favoriteStateContainer.className = 'favoriteStateContainer';
+    let favoriteState = document.createElement('p');
+    favoriteState.textContent = state;
+    favoriteStateContainer.appendChild(favoriteState);
+
+    return favoriteStateContainer;
+}
+
 function displayFavorite(city, state) {
 
     /*
@@ -36,33 +146,24 @@ function displayFavorite(city, state) {
 
     */
 
+    // TODO: Add functions to build all of these elements.
+    // have a form be created for each 'fetch Favorite' button,
+    // just like the regular 'Fetch Weather Data' button uses to
+    // communicate with the proper endpoint.
+
     let favoriteSection = document.querySelector('.favoriteSection');
-
-
-
-    let favoriteContainer = document.createElement('div');
-
-    // https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
-    favoriteContainer.className = 'favoriteContainer';
-    let favoriteCityContainer = document.createElement('div');
-    favoriteCityContainer.className = 'favoriteCityContainer';
-    let favoriteCity = document.createElement('p');
-
-    let favoriteStateContainer = document.createElement('div');
-    favoriteStateContainer.className = 'favoriteStateContainer';
-    let favoriteState = document.createElement('p');
-
-    favoriteCity.textContent = city;
-    favoriteCityContainer.appendChild(favoriteCity);
-
-    favoriteState.textContent = state;
-    favoriteStateContainer.appendChild(favoriteState);
+    
+    let favoriteContainer = buildFavoritesContainer(city, state);
+    let fetchThisLocationButton = buildFetchLocationButton(city, state);
+    let favoriteCityContainer = buildFavoriteCityContainer(city, state);
+    let favoriteStateContainer = buildFavoriteStateContainer(city, state);
 
     favoriteContainer.appendChild(favoriteCityContainer);
     favoriteContainer.appendChild(favoriteStateContainer);
+    favoriteContainer.appendChild(fetchThisLocationButton);
     favoriteSection.appendChild(favoriteContainer);
 
-    }
+}
 
 function determineUserInputRequirements(zipCode, city, state) {
 
@@ -91,7 +192,7 @@ function determineUserInputRequirements(zipCode, city, state) {
 
     }
 
-    else if ( (city != "") && (state != "") && (zipCode == "") ) {
+    else if ((city != "") && (state != "") && (zipCode == "")) {
 
         /*
 
@@ -113,7 +214,7 @@ function determineUserInputRequirements(zipCode, city, state) {
         stateField.removeAttribute('required');
     }
 
-    else if ( (zipCode == "") && (city == "") && (state == "") ) {
+    else if ((zipCode == "") && (city == "") && (state == "")) {
 
         // If all fields are empty, we prevent the form from being submitted.
         zipCodeField.setAttribute('required', '');
@@ -127,7 +228,7 @@ function determineUserInputRequirements(zipCode, city, state) {
     // Logic to determine if state and zip are filled in but not city.
 
     else {
-        
+
         // All parameters empty.
         return;
 
@@ -186,40 +287,46 @@ showFavoritesButton.addEventListener('click', () => {
     Before displaying the favorites, we wipe the favorites area clean.
     
     */
-    
+
     clearFavoritesDisplay();
-    
+
     // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
     let favorites = getFavorites().then(
-    // https://www.freecodecamp.org/news/how-to-iterate-over-objects-in-javascript/
-    (favorites) => { for (key in favorites) {
-    
-        let city = favorites[key];
-        let state = key;
-        displayFavorite(city, state);
-        
-    }})});
+        // https://www.freecodecamp.org/news/how-to-iterate-over-objects-in-javascript/
+        (favorites) => {
+            for (key in favorites) {
+
+                let city = favorites[key];
+                let state = key;
+                displayFavorite(city, state);
+
+            }
+        })
+});
 
 document.addEventListener('DOMContentLoaded', () => {
 
-/*
-
-Before displaying the favorites, we wipe the favorites area clean.
-
-*/
-
-clearFavoritesDisplay();
-
-// https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
-let favorites = getFavorites().then(
-// https://www.freecodecamp.org/news/how-to-iterate-over-objects-in-javascript/
-(favorites) => { for (key in favorites) {
-
-    let city = favorites[key];
-    let state = key;
-    displayFavorite(city, state);
+    /*
     
-}})});
+    Before displaying the favorites, we wipe the favorites area clean.
+    
+    */
+
+    clearFavoritesDisplay();
+
+    // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
+    let favorites = getFavorites().then(
+        // https://www.freecodecamp.org/news/how-to-iterate-over-objects-in-javascript/
+        (favorites) => {
+            for (key in favorites) {
+
+                let city = favorites[key];
+                let state = key;
+                displayFavorite(city, state);
+
+            }
+        })
+});
 
 /*
 
