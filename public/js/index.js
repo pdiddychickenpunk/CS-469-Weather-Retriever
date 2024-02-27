@@ -27,7 +27,7 @@ async function getFavorites() {
 
 }
 
-function displayFavorites() {
+function displayFavorite(city, state) {
 
     /*
 
@@ -38,38 +38,31 @@ function displayFavorites() {
 
     let favoriteSection = document.querySelector('.favoriteSection');
 
-    for (let index = 0; index < csvData.length; index++) {
-
-        let favoriteContainer = document.createElement('div');
-
-        // https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
-        favoriteContainer.className = 'favoriteContainer';
-        let favoriteCityContainer = document.createElement('div');
-        favoriteCityContainer.className = 'favoriteCityContainer';
-        let favoriteCity = document.createElement('p');
-
-        let favoriteStateContainer = document.createElement('div');
-        favoriteStateContainer.className = 'favoriteStateContainer';
-        let favoriteState = document.createElement('p');
 
 
-        let city = csvData[index];
-        favoriteCity.textContent = city;
+    let favoriteContainer = document.createElement('div');
 
-        // let state = csvData[index];
-        //favoriteState.textContent = state;
+    // https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
+    favoriteContainer.className = 'favoriteContainer';
+    let favoriteCityContainer = document.createElement('div');
+    favoriteCityContainer.className = 'favoriteCityContainer';
+    let favoriteCity = document.createElement('p');
 
-        favoriteCityContainer.appendChild(favoriteCity);
-        // favoriteStateContainer.appendChild(favoriteState);
-        favoriteContainer.appendChild(favoriteCityContainer);
-        favoriteContainer.appendChild(favoriteStateContainer);
+    let favoriteStateContainer = document.createElement('div');
+    favoriteStateContainer.className = 'favoriteStateContainer';
+    let favoriteState = document.createElement('p');
 
-        
-        favoriteSection.appendChild(favoriteContainer);
+    favoriteCity.textContent = city;
+    favoriteCityContainer.appendChild(favoriteCity);
+
+    favoriteState.textContent = state;
+    favoriteStateContainer.appendChild(favoriteState);
+
+    favoriteContainer.appendChild(favoriteCityContainer);
+    favoriteContainer.appendChild(favoriteStateContainer);
+    favoriteSection.appendChild(favoriteContainer);
 
     }
-    
-}
 
 function determineUserInputRequirements(zipCode, city, state) {
 
@@ -203,9 +196,7 @@ showFavoritesButton.addEventListener('click', () => {
     
         let city = favorites[key];
         let state = key;
-        let favorite = document.createElement('p');
-        favorite.textContent = `City: ${city}. State: ${state}`;
-        favoriteSection.appendChild(favorite);
+        displayFavorite(city, state);
         
     }})});
 
@@ -226,9 +217,7 @@ let favorites = getFavorites().then(
 
     let city = favorites[key];
     let state = key;
-    let favorite = document.createElement('p');
-    favorite.textContent = `City: ${city}. State: ${state}`;
-    favoriteSection.appendChild(favorite);
+    displayFavorite(city, state);
     
 }})});
 
