@@ -192,9 +192,11 @@ app.post('/weatherInformation', (req, res) => {
 
     let locationInformation = req.body;
     let zip_code = locationInformation['zipCode'];
+    zip_code == 'undefined' ? zip_code = "" : zip_code = zip_code;
     let city = locationInformation['city'];
     let state = locationInformation['state'];
     let weatherUrl = ``
+    console.log('Client Request recieved.');
 
     // user provides all input fields.
     if ((zip_code != "") && (city != "") && (state != "")) {
