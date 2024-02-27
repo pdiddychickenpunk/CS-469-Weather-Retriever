@@ -11,6 +11,7 @@ let zipCodeField = document.getElementById('zipCode');
 let cityField = document.getElementById('city');
 let stateField = document.getElementById('state');
 let favoriteSection = document.querySelector('.favoriteSection');
+let showFavoritesButton = document.getElementById('showFavorites');
 
 async function getFavorites() {
 
@@ -141,6 +142,19 @@ function determineUserInputRequirements(zipCode, city, state) {
 
 }
 
+function clearFavoritesDisplay() {
+
+    /*
+
+    Clears all elements from the favorites display
+    area (UI only). Does not remove them from storage.
+
+    */
+
+    favoriteSection.innerHTML = "";
+    return;
+}
+
 //https://developer.mozilla.org/en-US/docs/Web/API/Element/focusout_event
 zipCodeField.addEventListener('focusout', () => {
 
@@ -172,10 +186,18 @@ stateField.addEventListener('focusout', () => {
     determineUserInputRequirements(zipCodeValue, cityValue, stateValue);
 });
 
+showFavoritesButton.addEventListener('click', () => {
+
+/*
+
+Before displaying the favorites, we wipe the favorites area clean.
+
+*/
+
+clearFavoritesDisplay();
 
 // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
 let favorites = getFavorites().then(
-
 // https://www.freecodecamp.org/news/how-to-iterate-over-objects-in-javascript/
 (favorites) => { for (key in favorites) {
 
@@ -185,8 +207,7 @@ let favorites = getFavorites().then(
     favorite.textContent = `City: ${city}. State: ${state}`;
     favoriteSection.appendChild(favorite);
     
-}});
-
+}})});
 
 /*
 
@@ -197,5 +218,6 @@ https://developer.mozilla.org/en-US/docs/Web/API/Element/focusout_event
 https://www.codingninjas.com/studio/library/how-to-read-csv-file-in-javascript
 https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
 https://www.freecodecamp.org/news/how-to-iterate-over-objects-in-javascript/
+https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event
 
 */
