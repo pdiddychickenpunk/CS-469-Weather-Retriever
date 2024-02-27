@@ -80,14 +80,14 @@ button {
 
 .favoriteLocationHeader {
 
-    display: flex;
+    display: grid;
     grid-row-start: 7;
     grid-row-end: 8;
     grid-column-start: 2;
     grid-column-end: 9;
     border: 12px solid grey;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
 }
 
 .favoriteSection {
