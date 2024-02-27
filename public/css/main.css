@@ -102,6 +102,11 @@ button {
     justify-content: space-evenly;
 }
 
+.favoriteContainer {
+
+    border: 4px solid gainsboro;
+}
+
 .inputLabel {
 
     color: #2272ff;
