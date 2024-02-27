@@ -9,13 +9,14 @@ let key = '';
 const { argv } = require('node:process');
 
 // https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs
-const fileStream = require('node:fs');
-const { error } = require('console');
-
-// https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs
 // Read in a key file that contains the API key. Prevents exposure of API key.
 let apiKeyPath = argv[2];
 let favoritesPath = path.join(__dirname, '\\public\\', '\\favorites\\', 'favorites.csv')
+
+// https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs
+const fileStream = require('node:fs');
+const { error } = require('console');
+const readLine = require('readline');
 
 fileStream.readFile(apiKeyPath, 'utf-8', (error, fileData) => {
 
@@ -38,7 +39,6 @@ app.use(express.json());
 app.engine('html', require('ejs').renderFile);
 
 let pubDirectory = path.join(__dirname, 'public');
-
 
 async function getWeatherData(url) {
 
@@ -112,8 +112,43 @@ async function getWeatherData(url) {
 
 app.get('/', (req, res) => {
 
-   res.sendFile(path.join(__dirname, '\\public\\', '\\html\\', 'index.html'));
-    
+    res.sendFile(path.join(__dirname, '\\public\\', '\\html\\', 'index.html'));
+
+ });
+
+app.get('/getFavorites', (req, res) => {
+
+    // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
+    let favorites = {};
+
+    // https://www.codingninjas.com/studio/library/how-to-read-csv-file-in-javascript
+    fileStream.readFile(favoritesPath, 'utf-8', (error, data) => {
+
+        if (error) {
+
+            console.log(`Error reading favorites.csv`);
+        }
+
+        let csvLines = data.split('\n');
+        csvLines.forEach((line) => {
+
+            let csvFields = line.split(',');
+            let city = csvFields[0];
+            let state = csvFields[1];
+
+
+            if (state != undefined && city != undefined && state != '' && city != '' && state != 'undefined' && city != 'undefined') {
+
+                state = state.includes(' ') ? state.replace(' ', '_') : state;
+                favorites[state] = city;
+            }
+
+
+        });
+
+        res.send(favorites);
+
+    });
 
 });
 
