@@ -192,11 +192,12 @@ app.post('/weatherInformation', (req, res) => {
 
     let locationInformation = req.body;
     let zip_code = locationInformation['zipCode'];
-    zip_code == 'undefined' ? zip_code = "" : zip_code = zip_code;
+    zip_code == 'undefined' || zip_code == undefined ? zip_code = "" : zip_code = zip_code;
     let city = locationInformation['city'];
     let state = locationInformation['state'];
     let weatherUrl = ``
     console.log('Client Request recieved.');
+    console.log(`Zip Code: ${zip_code}. City: ${city}. State: ${state}.`);
 
     // user provides all input fields.
     if ((zip_code != "") && (city != "") && (state != "")) {
@@ -207,7 +208,7 @@ app.post('/weatherInformation', (req, res) => {
     // user provides only zip code.
     else if ((zip_code != "") && ((city == "") && (state == ""))) {
 
-        weatherUrl = weatherUrl = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${zip_code}&aqi=no`;
+        weatherUrl = weatherUrl = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${zip_code}&aqi=no`; 
     }
 
     // user provides city and state but not zip.
@@ -219,7 +220,6 @@ app.post('/weatherInformation', (req, res) => {
     else if ((zip_code == "") && (city == "" || state == "")) {
 
         weatherUrl = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${zip_code}&aqi=no`;
-
     }
 
     // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
