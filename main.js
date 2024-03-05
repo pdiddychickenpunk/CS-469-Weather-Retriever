@@ -11,7 +11,7 @@ const { argv } = require('node:process');
 // https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs
 // Read in a key file that contains the API key. Prevents exposure of API key.
 let apiKeyPath = argv[2];
-let favoritesPath = path.join(__dirname, '\\public\\', '\\favorites\\', 'favorites.csv')
+let favoritesPath = path.join(__dirname, '\\public\\', '\\favorites\\', 'favorites.csv');
 
 // https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs
 const fileStream = require('node:fs');
@@ -114,7 +114,7 @@ app.get('/', (req, res) => {
 
     res.sendFile(path.join(__dirname, '\\public\\', '\\html\\', 'index.html'));
 
- });
+});
 
 app.get('/getFavorites', (req, res) => {
 
@@ -136,11 +136,26 @@ app.get('/getFavorites', (req, res) => {
             let city = csvFields[0];
             let state = csvFields[1];
 
-
             if (state != undefined && city != undefined && state != '' && city != '' && state != 'undefined' && city != 'undefined') {
 
                 state = state.includes(' ') ? state.replace(' ', '_') : state;
-                favorites[state] = city;
+
+                if (state in favorites) {
+
+                    favorites[state].push(city);
+
+                }
+
+                else {
+
+                    favorites[state] = [];
+                    favorites[state].push(city);
+
+                }
+
+                // TODO: Bug here. If state is the same, it gets overwritten. i.e. Mesa AZ overwrites Phoenix AZ.
+
+
             }
 
 
@@ -208,7 +223,7 @@ app.post('/weatherInformation', (req, res) => {
     // user provides only zip code.
     else if ((zip_code != "") && ((city == "") && (state == ""))) {
 
-        weatherUrl = weatherUrl = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${zip_code}&aqi=no`; 
+        weatherUrl = weatherUrl = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${zip_code}&aqi=no`;
     }
 
     // user provides city and state but not zip.
@@ -269,5 +284,6 @@ app.listen(port, () => {
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
     https://stackoverflow.com/questions/69292467/getting-and-passing-object-to-node-js-render-method
     https://nodejs.org/en/learn/manipulating-files/writing-files-with-nodejs
+    https://stackoverflow.com/questions/74307284/how-to-serve-images-as-static-files-using-url-parameters-in-express-js
 
 */
