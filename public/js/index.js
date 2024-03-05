@@ -23,7 +23,6 @@ async function getFavorites() {
 
     const response = await fetch('http://localhost:9000/getFavorites');
     const favorites = await response.json();
-    console.log(favorites['Arizona']);
     return favorites;
 
 }
@@ -239,6 +238,33 @@ function clearFavoritesDisplay() {
     return;
 }
 
+function displayAllFavorites() {
+
+    /*
+
+    Displays all favorited items from the database.
+
+    */
+
+        // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
+        let favorites = getFavorites().then(
+            // https://www.freecodecamp.org/news/how-to-iterate-over-objects-in-javascript/
+            (favorites) => {
+    
+                for (key in favorites) {
+    
+                let stateFavorites = favorites[key];
+                // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+                stateFavorites.forEach((city) => {
+    
+                    let state = key;
+                    displayFavorite(city, state);
+                    
+                });
+    
+            }});
+}
+
 //https://developer.mozilla.org/en-US/docs/Web/API/Element/focusout_event
 zipCodeField.addEventListener('focusout', () => {
 
@@ -279,19 +305,8 @@ showFavoritesButton.addEventListener('click', () => {
     */
 
     clearFavoritesDisplay();
+    displayAllFavorites();
 
-    // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
-    let favorites = getFavorites().then(
-        // https://www.freecodecamp.org/news/how-to-iterate-over-objects-in-javascript/
-        (favorites) => {
-            for (key in favorites) {
-
-                let city = favorites[key];
-                let state = key;
-                displayFavorite(city, state);
-
-            }
-        })
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -303,19 +318,8 @@ document.addEventListener('DOMContentLoaded', () => {
     */
 
     clearFavoritesDisplay();
+    displayAllFavorites();
 
-    // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
-    let favorites = getFavorites().then(
-        // https://www.freecodecamp.org/news/how-to-iterate-over-objects-in-javascript/
-        (favorites) => {
-            for (key in favorites) {
-
-                let city = favorites[key];
-                let state = key;
-                displayFavorite(city, state);
-
-            }
-        })
 });
 
 /*
@@ -330,5 +334,6 @@ https://www.freecodecamp.org/news/how-to-iterate-over-objects-in-javascript/
 https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event
 https://www.geeksforgeeks.org/how-to-create-a-form-dynamically-with-the-javascript/
 https://stackoverflow.com/questions/7609130/set-the-default-value-of-an-input-field
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 
 */
