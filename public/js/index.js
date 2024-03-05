@@ -23,8 +23,18 @@ async function getFavorites() {
 
     const response = await fetch('http://localhost:9000/getFavorites');
     const favorites = await response.json();
+    console.log(favorites['Arizona']);
     return favorites;
 
+}
+
+function getTrashIcon () {
+
+    let trashIcon = document.createElement('svg');
+    trashIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+  </svg>`;
+    return trashIcon;
 }
 
 
@@ -37,8 +47,6 @@ function buildFavoritesContainer(city, state) {
     favorite location.
  
     */
-
-    console.log(`Build container: City: ${city} State: ${state}.`);
 
     let favoriteContainer = document.createElement('div');
     let favoriteForm = document.createElement('form');
@@ -56,6 +64,7 @@ function buildFavoritesContainer(city, state) {
     favoriteStateInput.setAttribute('name' , 'state');
     favoriteStateInput.value = state;
 
+    let removeThisLocationIcon = getTrashIcon();
     let fetchThisLocationButton = document.createElement('button');
     fetchThisLocationButton.setAttribute('type', 'submit');
     fetchThisLocationButton.textContent = `Fetch ${city} Weather`;
@@ -75,6 +84,7 @@ function buildFavoritesContainer(city, state) {
     favoriteContainer.className = 'favoriteContainer';
     favoriteContainer.appendChild(favoriteForm);
     favoriteContainer.appendChild(fetchThisLocationButton);
+    favoriteContainer.appendChild(removeThisLocationIcon);
     return favoriteContainer;
 
 };
@@ -225,7 +235,7 @@ function clearFavoritesDisplay() {
  
     */
 
-    favoriteSection.innerHTML = "";
+    favoriteSection.replaceChildren();
     return;
 }
 
