@@ -27,6 +27,35 @@ async function getFavorites() {
 
 }
 
+async function removeFavoriteFromDatabase(city, state) {
+
+    /*
+
+    Performs a POST request to the server to remove
+    a favorite location from the database.
+
+    */
+
+    const response = await fetch('http://localhost:9000/removeFavorite');
+    const result = await response.json();
+    return result;
+
+}
+
+function removeFavoriteFromDisplay(favoriteContainer) {
+
+    /*
+
+    Removes the specified favorite
+    from the favorite's section and
+    from the database.
+
+    */
+
+    favoriteSection.removeChild(favoriteContainer);
+
+}
+
 function getTrashIcon () {
 
     let trashIcon = document.createElement('svg');
@@ -64,6 +93,13 @@ function buildFavoritesContainer(city, state) {
     favoriteStateInput.value = state;
 
     let removeThisLocationIcon = getTrashIcon();
+    removeThisLocationIcon.addEventListener('click', () => {
+
+        removeFavoriteFromDisplay(favoriteContainer);
+        
+
+    });
+
     let fetchThisLocationButton = document.createElement('button');
     fetchThisLocationButton.setAttribute('type', 'submit');
     fetchThisLocationButton.textContent = `Fetch ${city} Weather`;
