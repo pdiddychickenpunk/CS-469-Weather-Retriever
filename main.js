@@ -153,7 +153,6 @@ function updateHistory() {
 
     }
 
-
     else {
 
         let lastLocation = history[lastIndex];
