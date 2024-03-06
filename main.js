@@ -32,6 +32,7 @@ fileStream.readFile(apiKeyPath, 'utf-8', (error, fileData) => {
 });
 
 let favoriteLocations = {};
+let history = [];
 
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
@@ -112,6 +113,68 @@ async function getWeatherData(url) {
 
 }
 
+function updateHistory() {
+
+    /*
+
+    Checks the search history
+    and removes older entries to make
+    way for the new ones.
+
+    */
+
+    let lastIndex = history.length - 1;
+
+    if (lastIndex <= 0) {
+
+        let lastLocation = history[0];
+
+        let historyData = {
+
+            lastLocation: lastLocation,
+        }
+
+        return historyData;
+    }
+
+    else if (lastIndex == 1) {
+
+        let lastLocation = history[0];
+        let secondLastLocation = history[1];
+
+        let historyData = {
+
+            lastLocation: lastLocation,
+            secondLastLocation: secondLastLocation,
+        }
+
+        return historyData;
+
+
+    }
+
+
+    else {
+
+        let lastLocation = history[lastIndex];
+        let secondLastLocation = history[lastIndex - 1];
+        let thirdLastLocation = history[lastIndex - 2];
+
+        let historyData = {
+
+            lastLocation: lastLocation,
+            secondLastLocation: secondLastLocation,
+            thirdLastLocation: thirdLastLocation,
+
+        };
+
+        return historyData;
+
+
+    }
+
+}
+
 function clearFavorite(favoriteLocations) {
 
     /*
@@ -170,6 +233,12 @@ app.get('/', (req, res) => {
 
 });
 
+app.get('/getHistory', (req, res) => {
+
+    res.send(updateHistory());
+
+});
+
 app.get('/getFavorites', (req, res) => {
 
     // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
@@ -213,6 +282,7 @@ app.get('/getFavorites', (req, res) => {
         });
 
         favoriteLocations = favorites;
+
         res.send(favorites);
 
     });
@@ -297,6 +367,7 @@ app.post('/weatherInformation', (req, res) => {
     if ((zip_code != "") && (city != "") && (state != "")) {
 
         weatherUrl = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${zip_code}&aqi=no`;
+
     }
 
     // user provides only zip code.
@@ -316,10 +387,12 @@ app.post('/weatherInformation', (req, res) => {
         weatherUrl = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${zip_code}&aqi=no`;
     }
 
+
     // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
     let result = getWeatherData(weatherUrl).then(
 
-        (result) => { result.hasOwnProperty('errorCode') ? res.render(`${pubDirectory}/html/errorResult.html`, { result: result }) : res.render(`${pubDirectory}/html/weatherResult.html`, { result: result }) });
+
+        (result) => { result.hasOwnProperty('errorCode') ? res.render(`${pubDirectory}/html/errorResult.html`, { result: result }) : history.push([result.city, result.state]), updateHistory(), res.render(`${pubDirectory}/html/weatherResult.html`, { result: result }) });
 
 });
 
