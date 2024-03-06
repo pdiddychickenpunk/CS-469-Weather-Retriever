@@ -13,6 +13,7 @@ let cityField = document.getElementById('city');
 let stateField = document.getElementById('state');
 let favoriteSection = document.querySelector('.favoriteSection');
 let showFavoritesButton = document.getElementById('showFavorites');
+let mostRecentSearches = document.querySelector('.mostRecentSearches');
 
 async function getFavorites() {
 
@@ -112,8 +113,6 @@ function displayHistory(history) {
 
     */
 
-    console.log(history);
-
     let locations = [];
 
     let lastLocation = history.lastLocation == undefined ? '' : history.lastLocation;
@@ -133,9 +132,9 @@ function displayHistory(history) {
     let secondLastEntry = [secondLastCity, secondLastState];
     let thirdLastEntry = [thirdLastCity, thirdLastState];
 
-    locations.push(thirdLastEntry);
-    locations.push(secondLastEntry);
     locations.push(lastEntry);
+    locations.push(secondLastEntry);
+    locations.push(thirdLastEntry);
 
     locations.forEach((entry) => {
 
@@ -145,7 +144,7 @@ function displayHistory(history) {
         if (city != '' && state != '') {
 
             let historyElement = buildHistoryElement(city,state);
-            appCanvas.appendChild(historyElement);
+            mostRecentSearches.appendChild(historyElement);
 
         }
     });
