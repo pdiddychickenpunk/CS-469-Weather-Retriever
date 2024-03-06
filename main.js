@@ -31,6 +31,8 @@ fileStream.readFile(apiKeyPath, 'utf-8', (error, fileData) => {
 
 });
 
+let favoriteLocations = {};
+
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -110,6 +112,58 @@ async function getWeatherData(url) {
 
 }
 
+function clearFavorite(favoriteLocations) {
+
+    /*
+
+    Clears all contents of the favorites file.
+
+    */
+
+
+    // We want to clear all favorites first. Then after that, we write the locations we are keeping
+    // back into the file.
+
+    let favoritesData = ''
+    fileStream.writeFile(favoritesPath, favoritesData, { flag: 'w' }, (error) => {
+
+        if (error) {
+
+            console.log(`ERROR: Cannot clear favorites file data. Error Reason: ${error}`);
+        }
+
+    });
+
+    for (key in favoriteLocations) {
+
+        let state = key
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+
+
+
+        let stateFavorites = favoriteLocations[key];
+        let counter = 0;
+        stateFavorites.forEach((city) => {
+
+            let favoritesData = String(city) + ',' + String(state) + '\n';
+
+            fileStream.appendFile(favoritesPath, favoritesData, (error) => {
+
+                if (error) {
+
+                    console.log(`ERROR: Cannot write favorite record to storage. Error Reason: ${error}`);
+                }
+
+            });
+
+
+        });
+
+
+    }
+
+}
+
 app.get('/', (req, res) => {
 
     res.sendFile(path.join(__dirname, '\\public\\', '\\html\\', 'index.html'));
@@ -153,17 +207,55 @@ app.get('/getFavorites', (req, res) => {
 
                 }
 
-                // TODO: Bug here. If state is the same, it gets overwritten. i.e. Mesa AZ overwrites Phoenix AZ.
-
-
             }
 
 
         });
 
+        favoriteLocations = favorites;
         res.send(favorites);
 
     });
+
+});
+
+app.post('/removeFavorite', (req, res) => {
+
+    let favorite = req.body;
+    let removeCity = favorite['city'];
+    let removeState = favorite['state'];
+
+    for (key in favoriteLocations) {
+
+        let state = key
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+
+        if (removeState == state) {
+
+            let stateFavorites = favoriteLocations[key];
+            let counter = 0;
+            stateFavorites.forEach((city) => {
+
+                if (removeCity == city) {
+
+                    delete favoriteLocations[state][counter];
+                    counter++;
+                }
+
+                else {
+
+                    counter++;
+                }
+
+            });
+        }
+
+    }
+
+
+    clearFavorite(favoriteLocations);
+
+    return res.sendStatus(200)
 
 });
 
@@ -173,18 +265,6 @@ app.post('/addToFavorites', (req, res) => {
     let zip_code = favorite['zipCode'];
     let city = favorite['city'];
     let state = favorite['state'];
-    console.log(`Favorites Action: POST request made successfully.`);
-
-    if ((city != "") && (state != "")) {
-
-        console.log(`Favorites Action: city and state provided. ${JSON.stringify(favorite)}`);
-    }
-
-    else {
-
-        console.log(`Favorites Action: ERROR. ${favorite}`);
-
-    }
 
     // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
     // https://stackoverflow.com/questions/69292467/getting-and-passing-object-to-node-js-render-method
@@ -203,6 +283,7 @@ app.post('/addToFavorites', (req, res) => {
 
 });
 
+
 app.post('/weatherInformation', (req, res) => {
 
     let locationInformation = req.body;
@@ -211,8 +292,6 @@ app.post('/weatherInformation', (req, res) => {
     let city = locationInformation['city'];
     let state = locationInformation['state'];
     let weatherUrl = ``
-    console.log('Client Request recieved.');
-    console.log(`Zip Code: ${zip_code}. City: ${city}. State: ${state}.`);
 
     // user provides all input fields.
     if ((zip_code != "") && (city != "") && (state != "")) {
@@ -285,5 +364,54 @@ app.listen(port, () => {
     https://stackoverflow.com/questions/69292467/getting-and-passing-object-to-node-js-render-method
     https://nodejs.org/en/learn/manipulating-files/writing-files-with-nodejs
     https://stackoverflow.com/questions/74307284/how-to-serve-images-as-static-files-using-url-parameters-in-express-js
+
+
+
+
+
+
+
+        let favorites = {};
+
+    // https://www.codingninjas.com/studio/library/how-to-read-csv-file-in-javascript
+    fileStream.readFile(favoritesPath, {flag: 'r', encoding:'utf-8'}, (error, data) => { //TODO: problem here.
+
+        if (error) {
+
+            console.log(`Error reading favorites.csv`);
+        }
+
+        let csvLines = data.split('\n');
+        csvLines.forEach((line) => {
+
+            let csvFields = line.split(',');
+            let city = csvFields[0];
+            let state = csvFields[1];
+            console.log(`Before Remove City: ${city}, Before Remove State: ${state}`);
+
+            if (state != undefined && city != undefined && state != '' && city != '' && state != 'undefined' && city != 'undefined') {
+
+                state = state.includes(' ') ? state.replace(' ', '_') : state;
+
+                if (state in favorites) {
+
+                    favorites[state].push(city);
+
+                }
+
+                else {
+
+                    favorites[state] = [];
+                    favorites[state].push(city);
+
+                }
+
+            }
+
+        });
+
+    });
+
+    clearFavoritesFile();
 
 */
