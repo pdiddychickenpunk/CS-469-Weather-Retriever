@@ -27,7 +27,7 @@ async function getFavorites() {
 
 }
 
-async function removeFavoriteFromDatabase(city, state) {
+async function removeFavoriteFromDatabase(cityInput, stateInput) {
 
     /*
 
@@ -36,9 +36,23 @@ async function removeFavoriteFromDatabase(city, state) {
 
     */
 
-    const response = await fetch('http://localhost:9000/removeFavorite');
-    const result = await response.json();
-    return result;
+    let city = cityInput.value;
+    let state = stateInput.value;
+
+    fetch('http://localhost:9000/removeFavorite', {
+
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+
+        body: JSON.stringify({
+
+            city: city,
+            state: state,
+        })
+
+    }).then()
+
+    return;
 
 }
 
@@ -56,7 +70,7 @@ function removeFavoriteFromDisplay(favoriteContainer) {
 
 }
 
-function getTrashIcon () {
+function getTrashIcon() {
 
     let trashIcon = document.createElement('svg');
     trashIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
@@ -84,19 +98,19 @@ function buildFavoritesContainer(city, state) {
     // https://stackoverflow.com/questions/7609130/set-the-default-value-of-an-input-field
     let favoriteCityInput = document.createElement('input');
     favoriteCityInput.setAttribute('type', 'hidden');
-    favoriteCityInput.setAttribute('name' , 'city');
+    favoriteCityInput.setAttribute('name', 'city');
     favoriteCityInput.value = city;
 
     let favoriteStateInput = document.createElement('input');
     favoriteStateInput.setAttribute('type', 'hidden');
-    favoriteStateInput.setAttribute('name' , 'state');
+    favoriteStateInput.setAttribute('name', 'state');
     favoriteStateInput.value = state;
 
     let removeThisLocationIcon = getTrashIcon();
     removeThisLocationIcon.addEventListener('click', () => {
 
+        removeFavoriteFromDatabase(favoriteCityInput, favoriteStateInput).then();
         removeFavoriteFromDisplay(favoriteContainer);
-        
 
     });
 
@@ -282,23 +296,24 @@ function displayAllFavorites() {
 
     */
 
-        // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
-        let favorites = getFavorites().then(
-            // https://www.freecodecamp.org/news/how-to-iterate-over-objects-in-javascript/
-            (favorites) => {
-    
-                for (key in favorites) {
-    
+    // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
+    let favorites = getFavorites().then(
+        // https://www.freecodecamp.org/news/how-to-iterate-over-objects-in-javascript/
+        (favorites) => {
+
+            for (key in favorites) {
+
                 let stateFavorites = favorites[key];
                 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
                 stateFavorites.forEach((city) => {
-    
+
                     let state = key;
                     displayFavorite(city, state);
-                    
+
                 });
-    
-            }});
+
+            }
+        });
 }
 
 //https://developer.mozilla.org/en-US/docs/Web/API/Element/focusout_event
