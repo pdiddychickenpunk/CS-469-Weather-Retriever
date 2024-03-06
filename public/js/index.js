@@ -7,6 +7,7 @@ specific operations for HTML and CSS.
 
 */
 
+let appCanvas = document.querySelector('.appCanvas');
 let zipCodeField = document.getElementById('zipCode');
 let cityField = document.getElementById('city');
 let stateField = document.getElementById('state');
@@ -22,6 +23,20 @@ async function getFavorites() {
     */
 
     const response = await fetch('http://localhost:9000/getFavorites');
+    const favorites = await response.json();
+    return favorites;
+
+}
+
+async function getHistory() {
+
+    /*
+
+    Performs a GET request to the server to retrieve history data.
+
+    */
+
+    const response = await fetch('http://localhost:9000/getHistory');
     const favorites = await response.json();
     return favorites;
 
@@ -53,6 +68,87 @@ async function removeFavoriteFromDatabase(cityInput, stateInput) {
     }).then()
 
     return;
+
+}
+
+function buildHistoryElement(city,state) {
+
+    /*
+
+    Returns a new div element for
+    displaying a search history entry.
+    The provided city and state are used
+    to populate this div.
+
+    */
+
+    let historyContainer = document.createElement('div');
+    historyContainer.setAttribute('class', 'historyElement');
+    
+    let historyCityContainer = document.createElement('div');
+    let historyCity = document.createElement('p');
+    historyCity.textContent = city;
+    historyCityContainer.appendChild(historyCity);
+
+    let historyStateContainer = document.createElement('div');
+    let historyState = document.createElement('p');
+    historyState.textContent = state;
+    historyStateContainer.appendChild(historyState);
+
+    historyContainer.appendChild(historyCityContainer);
+    historyContainer.appendChild(historyStateContainer);
+
+    return historyContainer;
+
+}
+
+function displayHistory(history) {
+
+    /*
+
+    Takes in an object containing
+    the most recent searches and displays
+    each location onto the homepage.
+
+    */
+
+    console.log(history);
+
+    let locations = [];
+
+    let lastLocation = history.lastLocation == undefined ? '' : history.lastLocation;
+    let secondLastLocation = history.secondLastLocation == undefined ? '' : history.secondLastLocation;
+    let thirdLastLocation = history.thirdLastLocation == undefined ? '' : history.thirdLastLocation;
+
+    let lastCity = lastLocation == '' ? '' : lastLocation[0];
+    let lastState = lastLocation == '' ? '' : lastLocation[1];
+
+    let secondLastCity = secondLastLocation == '' ? '' : secondLastLocation[0];
+    let secondLastState = secondLastLocation == '' ? '' : secondLastLocation[1];
+
+    let thirdLastCity = thirdLastLocation == '' ? '' : thirdLastLocation[0];
+    let thirdLastState = thirdLastLocation == '' ? '' : thirdLastLocation[1];
+
+    let lastEntry = [lastCity, lastState];
+    let secondLastEntry = [secondLastCity, secondLastState];
+    let thirdLastEntry = [thirdLastCity, thirdLastState];
+
+    locations.push(thirdLastEntry);
+    locations.push(secondLastEntry);
+    locations.push(lastEntry);
+
+    locations.forEach((entry) => {
+
+        let city = entry[0];
+        let state = entry[1];
+
+        if (city != '' && state != '') {
+
+            let historyElement = buildHistoryElement(city,state);
+            appCanvas.appendChild(historyElement);
+
+        }
+    });
 
 }
 
@@ -370,6 +466,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     clearFavoritesDisplay();
     displayAllFavorites();
+    let history = getHistory().then( (history) =>  {displayHistory(history)});
+    
 
 });
 
