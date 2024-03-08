@@ -124,7 +124,9 @@ button {
 
 }
 
-#favoritedLocations {
+#favoritedLocations,
+#welcomeHeader,
+#userInputInstructionHeader {
 
     color: azure;
 }
