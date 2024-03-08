@@ -119,14 +119,14 @@ button {
     grid-row-end: 4;
     grid-column-start: -2;
     grid-column-end: -1;
-    border: 8px solid rgb(226, 83, 83);
 
 
 }
 
 #favoritedLocations,
 #welcomeHeader,
-#userInputInstructionHeader {
+#userInputInstructionHeader,
+#mostRecentSearches {
 
     color: azure;
 }
