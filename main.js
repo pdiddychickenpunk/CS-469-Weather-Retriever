@@ -283,6 +283,7 @@ app.get('/getFavorites', (req, res) => {
         favoriteLocations = favorites;
 
         res.send(favorites);
+        return;
 
     });
 
@@ -324,7 +325,7 @@ app.post('/removeFavorite', (req, res) => {
 
     clearFavorite(favoriteLocations);
 
-    return res.sendStatus(200)
+    return res.sendStatus(200);
 
 });
 
