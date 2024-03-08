@@ -96,6 +96,7 @@ function buildHistoryElement(city,state) {
     historyState.textContent = state;
     historyStateContainer.appendChild(historyState);
 
+    historyContainer.style.border = '4px solid gainsboro';
     historyContainer.appendChild(historyCityContainer);
     historyContainer.appendChild(historyStateContainer);
 
@@ -187,7 +188,7 @@ function buildFavoritesContainer(city, state) {
 
     let favoriteContainer = document.createElement('div');
     let favoriteForm = document.createElement('form');
-
+    
     // Build input elements.
     // https://www.geeksforgeeks.org/how-to-create-a-form-dynamically-with-the-javascript/
     // https://stackoverflow.com/questions/7609130/set-the-default-value-of-an-input-field
