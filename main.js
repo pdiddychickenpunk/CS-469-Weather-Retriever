@@ -437,54 +437,6 @@ app.listen(port, () => {
     https://stackoverflow.com/questions/69292467/getting-and-passing-object-to-node-js-render-method
     https://nodejs.org/en/learn/manipulating-files/writing-files-with-nodejs
     https://stackoverflow.com/questions/74307284/how-to-serve-images-as-static-files-using-url-parameters-in-express-js
-
-
-
-
-
-
-
-        let favorites = {};
-
-    // https://www.codingninjas.com/studio/library/how-to-read-csv-file-in-javascript
-    fileStream.readFile(favoritesPath, {flag: 'r', encoding:'utf-8'}, (error, data) => { //TODO: problem here.
-
-        if (error) {
-
-            console.log(`Error reading favorites.csv`);
-        }
-
-        let csvLines = data.split('\n');
-        csvLines.forEach((line) => {
-
-            let csvFields = line.split(',');
-            let city = csvFields[0];
-            let state = csvFields[1];
-            console.log(`Before Remove City: ${city}, Before Remove State: ${state}`);
-
-            if (state != undefined && city != undefined && state != '' && city != '' && state != 'undefined' && city != 'undefined') {
-
-                state = state.includes(' ') ? state.replace(' ', '_') : state;
-
-                if (state in favorites) {
-
-                    favorites[state].push(city);
-
-                }
-
-                else {
-
-                    favorites[state] = [];
-                    favorites[state].push(city);
-
-                }
-
-            }
-
-        });
-
-    });
-
-    clearFavoritesFile();
+    https://docs.github.com/en/authentication/connecting-to-github-with-ssh/working-with-ssh-key-passphrases
 
 */
