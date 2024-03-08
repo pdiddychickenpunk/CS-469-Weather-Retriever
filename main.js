@@ -391,7 +391,6 @@ app.post('/weatherInformation', (req, res) => {
     // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
     let result = getWeatherData(weatherUrl).then(
 
-
         (result) => { result.hasOwnProperty('errorCode') ? res.render(`${pubDirectory}/html/errorResult.html`, { result: result }) : history.push([result.city, result.state]), updateHistory(), res.render(`${pubDirectory}/html/weatherResult.html`, { result: result }) });
 
 });
@@ -438,5 +437,6 @@ app.listen(port, () => {
     https://nodejs.org/en/learn/manipulating-files/writing-files-with-nodejs
     https://stackoverflow.com/questions/74307284/how-to-serve-images-as-static-files-using-url-parameters-in-express-js
     https://docs.github.com/en/authentication/connecting-to-github-with-ssh/working-with-ssh-key-passphrases
+    https://superuser.com/questions/1010542/how-to-make-git-not-prompt-for-passphrase-for-ssh-key
 
 */
