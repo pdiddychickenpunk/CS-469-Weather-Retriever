@@ -67,6 +67,14 @@ button {
     background-color: azure;
 }
 
+.favoriteCityContainer,
+.favoriteStateContainer,
+.favoriteCity,
+.favoriteState {
+
+    background-color: aliceblue;
+}
+
 .favoriteLocationHeader {
 
     display: grid;
@@ -102,6 +110,9 @@ button {
 .favoriteContainer {
 
     border: 1px solid gainsboro;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: aliceblue;
 }
 
 .inputLabel {
