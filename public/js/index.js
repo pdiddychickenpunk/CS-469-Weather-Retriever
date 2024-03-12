@@ -38,8 +38,8 @@ async function getHistory() {
     */
 
     const response = await fetch('http://localhost:9000/getHistory');
-    const favorites = await response.json();
-    return favorites;
+    const history = await response.json();
+    return history;
 
 }
 
@@ -96,7 +96,6 @@ function buildHistoryElement(city,state) {
     historyState.textContent = state;
     historyStateContainer.appendChild(historyState);
 
-    historyContainer.style.border = '4px solid gainsboro';
     historyContainer.appendChild(historyCityContainer);
     historyContainer.appendChild(historyStateContainer);
 
