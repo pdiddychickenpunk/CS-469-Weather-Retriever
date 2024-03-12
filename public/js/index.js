@@ -202,6 +202,7 @@ function buildFavoritesContainer(city, state) {
     favoriteStateInput.value = state;
 
     let removeThisLocationIcon = getTrashIcon();
+    removeThisLocationIcon.className = 'trash-icon-object';
     removeThisLocationIcon.addEventListener('click', () => {
 
         removeFavoriteFromDatabase(favoriteCityInput, favoriteStateInput).then();
@@ -227,9 +228,9 @@ function buildFavoritesContainer(city, state) {
 
     // https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
     favoriteContainer.className = 'favoriteContainer';
-    favoriteContainer.appendChild(favoriteForm);
     favoriteContainer.appendChild(fetchThisLocationButton);
     favoriteContainer.appendChild(removeThisLocationIcon);
+    favoriteContainer.appendChild(favoriteForm);
     return favoriteContainer;
 
 };
