@@ -107,8 +107,17 @@ button {
 
 }
 
+.trash-icon-object {
+
+    background-color: aliceblue;
+
+}
+
 .favoriteContainer {
 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
     border: 1px solid gainsboro;
     border-radius: 8px;
     padding: 10px;
