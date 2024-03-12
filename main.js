@@ -240,7 +240,6 @@ app.get('/getHistory', (req, res) => {
 
 app.get('/getFavorites', (req, res) => {
 
-    // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
     let favorites = {};
 
     // https://www.codingninjas.com/studio/library/how-to-read-csv-file-in-javascript
@@ -281,9 +280,8 @@ app.get('/getFavorites', (req, res) => {
         });
 
         favoriteLocations = favorites;
-
-        res.send(favorites);
-        return;
+        return res.send(favorites);
+        
 
     });
 
