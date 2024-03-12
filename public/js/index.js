@@ -210,6 +210,7 @@ function buildFavoritesContainer(city, state) {
     });
 
     let fetchThisLocationButton = document.createElement('button');
+    fetchThisLocationButton.className = 'btn btn-dark';
     fetchThisLocationButton.setAttribute('type', 'submit');
     fetchThisLocationButton.textContent = `Fetch ${city} Weather`;
     fetchThisLocationButton.addEventListener('click', () => {
@@ -247,6 +248,7 @@ function buildFavoriteCityContainer(city, state) {
     let favoriteCityContainer = document.createElement('div');
     favoriteCityContainer.className = 'favoriteCityContainer';
     let favoriteCity = document.createElement('p');
+    favoriteCity.className = 'favoriteCity';
     favoriteCity.textContent = city;
     favoriteCityContainer.appendChild(favoriteCity);
 
@@ -267,6 +269,7 @@ function buildFavoriteStateContainer(city, state) {
     let favoriteStateContainer = document.createElement('div');
     favoriteStateContainer.className = 'favoriteStateContainer';
     let favoriteState = document.createElement('p');
+    favoriteState.className = 'favoriteState';
     favoriteState.textContent = state;
     favoriteStateContainer.appendChild(favoriteState);
 
