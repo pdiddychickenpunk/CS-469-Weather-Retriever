@@ -281,7 +281,7 @@ app.get('/getFavorites', (req, res) => {
 
         favoriteLocations = favorites;
         return res.send(favorites);
-        
+
 
     });
 
@@ -389,7 +389,21 @@ app.post('/weatherInformation', (req, res) => {
     // https://stackoverflow.com/questions/49982058/how-to-call-an-async-function
     let result = getWeatherData(weatherUrl).then(
 
-        (result) => { result.hasOwnProperty('errorCode') ? res.render(`${pubDirectory}/html/errorResult.html`, { result: result }) : history.push([result.city, result.state]), updateHistory(), res.render(`${pubDirectory}/html/weatherResult.html`, { result: result }) });
+        (result) => {
+
+            if (result.hasOwnProperty('errorCode')) {
+
+                res.render(`${pubDirectory}/html/errorResult.html`, { result: result })
+
+            }
+
+            else {
+
+                history.push([result.city, result.state]);
+                updateHistory();
+                res.render(`${pubDirectory}/html/weatherResult.html`, { result: result })
+            }
+        });
 
 });
 
