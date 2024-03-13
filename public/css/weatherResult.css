@@ -113,16 +113,14 @@ button {
     justify-content: center;
 }
 
-.favoriteSection {
 
-    display: flex;
-    grid-row-start: 8;
-    grid-row-end: -1;
-    grid-column-start: 2;
-    grid-column-end: 9;
-    border: 12px solid grey;
-    align-items: center;
-    justify-content: space-evenly;
+#zipCode,
+#city,
+#state {
+
+    color: black;
+    background-color: azure;
+    border-radius: 6px;
 }
 
 .inputLabel {
