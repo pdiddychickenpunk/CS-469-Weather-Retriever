@@ -59,6 +59,12 @@ button {
     justify-content: space-evenly;
 }
 
+#removeButton {
+
+    width: 50px;
+    height: auto;
+}
+
 #zipCode,
 #city,
 #state {
