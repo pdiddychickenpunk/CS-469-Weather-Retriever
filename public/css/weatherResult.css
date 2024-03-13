@@ -45,9 +45,20 @@ button {
 .weatherData {
 
     display: flex;
+    flex-direction: column;
     border: 8px solid grey;
     align-items: center;
     justify-content: space-evenly;
+    grid-row-start: 1;
+    grid-row-end: -1;
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+.weatherResult {
+
+    color: aliceblue;
+    font-size: medium;
 }
 
 .userInputSection {
@@ -72,10 +83,16 @@ button {
 .userInputFormSection {
 
     display: flex;
+    flex-direction: column;
     grid-column-start: 2;
-    grid-column-end: 6;
+    grid-column-end: 8;
     align-items: center;
     justify-content: space-evenly;
+}
+
+#retrieveAnotherLocation {
+
+    color: aliceblue;
 }
 
 .userInputMessageSection {
