@@ -12,6 +12,7 @@ const { argv } = require('node:process');
 // Read in a key file that contains the API key. Prevents exposure of API key.
 let apiKeyPath = argv[2];
 let favoritesPath = path.join(__dirname, '\\public\\', '\\favorites\\', 'favorites.csv');
+let documentPath = path.join(__dirname, '\\documentation\\', '\\README.pdf\\');
 
 // https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs
 const fileStream = require('node:fs');
@@ -351,6 +352,13 @@ app.post('/addToFavorites', (req, res) => {
 
 });
 
+app.get('/documentation', (req, res) => {
+
+    res.sendFile(documentPath);
+    return;
+})
+
+
 
 app.post('/weatherInformation', (req, res) => {
 
@@ -460,5 +468,7 @@ app.listen(port, () => {
     https://firstlogic.com/insights/zip-plus-four-codes
 
     https://pe.usps.com/archive/html/dmmarchive20030810/A010.htm#:~:text=The%20most%20complete%20ZIP%20Code,a%20hyphen%2C%20and%20four%20digits.
+
+    https://app.diagrams.net/
 
 */
