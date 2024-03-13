@@ -65,6 +65,7 @@ button {
 
     color: black;
     background-color: azure;
+    border-radius: 6px;
 }
 
 .favoriteCityContainer,
