@@ -28,36 +28,37 @@
 
             <div class="weatherData">
 
-                <h4 id="weatherSummary">Weather Summary: <%=weatherSummary %>
+                <h4 class="weatherResult" id="weatherSummary">Weather Summary: <%=weatherSummary %>
                 </h4>
-                <h4 id="user_city">City: <%=city %>
+                <h4 class="weatherResult" id="user_city">City: <%=city %>
                 </h4>
-                <h4 id="user_state">State: <%=state %>
+                <h4 class="weatherResult" id="user_state">State: <%=state %>
                 </h4>
-                <h4 id="country">Country: <%=country %>
+                <h4 class="weatherResult" id="country">Country: <%=country %>
                 </h4>
-                <h4 id="latitude">Latitude: <%=latitude %>
+                <h4 class="weatherResult" id="latitude">Latitude: <%=latitude %>
                 </h4>
-                <h4 id="longitude">Longtitude: <%=longitude %>
+                <h4 class="weatherResult" id="longitude">Longtitude: <%=longitude %>
                 </h4>
-                <h4 id="localTime">Time Zone: <%=localTime %>
+                <h4 class="weatherResult" id="localTime">Time Zone: <%=localTime %>
                 </h4>
-                <h4 id="fahrenheit">Temperature (F): <%=fahrenheit %>
+                <h4 class="weatherResult" id="fahrenheit">Temperature (F): <%=fahrenheit %>
                 </h4>
-                <h4 id="feelsLikeFahrenheit">Feels Like: <%=feelsLikeFahrenheit %>
+                <h4 class="weatherResult" id="feelsLikeFahrenheit">Feels Like: <%=feelsLikeFahrenheit %>
                 </h4>
-                <h4 id="visibility">Visibility: <%=visibility %> miles</h4>
-                <h4 id="wind_mph">Wind Speed: <%=wind_mph %>
+                <h4 class="weatherResult" id="visibility">Visibility: <%=visibility %> miles</h4>
+                <h4 class="weatherResult" id="wind_mph">Wind Speed: <%=wind_mph %>
                 </h4>
-                <h4 id="windDirection">Wind Direction: <%=windDirection %>
+                <h4 class="weatherResult" id="windDirection">Wind Direction: <%=windDirection %>
                 </h4>
-                <h4 id="timeOfDay">Day or Night: <%=timeOfDay %>
+                <h4 class="weatherResult" id="timeOfDay">Day or Night: <%=timeOfDay %>
                 </h4>
 
             </div>
 
             <div class="userInputFormSection">
 
+                <h4 id="retrieveAnotherLocation">Retrieve Another Location:</h4>
                 <form action="/weatherInformation" method="post">
 
                     <label class="inputLabel" for="zipCode">Zip Code:</label>
@@ -102,7 +103,7 @@
 
                         <% } %>
 
-                            <button type="submit" id="addToFavorites">Add Location to Favorites</button>
+                            <button type="submit" id="addToFavorites">Add <%= city %> to Favorites</button>
 
                 </form>
 
