@@ -57,7 +57,7 @@ button {
     grid-column-end: 9;
     grid-row-start: 3;
     grid-row-end: 7;
-    border: 8px solid grey;
+    border: 1px solid grey;
     align-items: center;
     justify-content: space-evenly;
 }
@@ -69,15 +69,20 @@ button {
     color: beige;
 }
 
-.userInputMessageSection {
-
-    border: 5px solid grey;
-}
-
 .userInputFormSection {
 
-    border: 5px solid grey;
+    display: flex;
+    grid-column-start: 2;
+    grid-column-end: 6;
+    align-items: center;
+    justify-content: space-evenly;
 }
+
+.userInputMessageSection {
+
+    border: 1px solid grey;
+}
+
 
 .favoriteLocationHeader {
 
@@ -106,4 +111,21 @@ button {
 .inputLabel {
 
     color: #2272ff;
+}
+
+#backButtonContainer {
+
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+#addToFavoritesButtonContainer {
+
+    grid-row-start: 3;
+    grid-row-end: 4;
+    grid-column-start: 2;
+    grid-column-end: 3;
+
 }
