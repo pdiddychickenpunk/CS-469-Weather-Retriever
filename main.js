@@ -197,14 +197,14 @@ function clearFavorite(favoriteLocations) {
 
     });
 
-    for (key in favoriteLocations) {
+    for (item in favoriteLocations) {
 
-        let state = key
+        let state = item
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 
 
 
-        let stateFavorites = favoriteLocations[key];
+        let stateFavorites = favoriteLocations[item];
         let counter = 0;
         stateFavorites.forEach((city) => {
 
@@ -294,14 +294,14 @@ app.post('/removeFavorite', (req, res) => {
     let removeCity = favorite['city'];
     let removeState = favorite['state'];
 
-    for (key in favoriteLocations) {
+    for (item in favoriteLocations) {
 
-        let state = key
+        let state = item
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 
         if (removeState == state) {
 
-            let stateFavorites = favoriteLocations[key];
+            let stateFavorites = favoriteLocations[item];
             let counter = 0;
             stateFavorites.forEach((city) => {
 
@@ -401,7 +401,8 @@ app.post('/weatherInformation', (req, res) => {
 
             if (result.hasOwnProperty('errorCode')) {
 
-                res.render(`${pubDirectory}/html/errorResult.html`, { result: result })
+                res.render(`${pubDirectory}/html/errorResult.html`, { result: result });
+                
 
             }
 
